@@ -656,10 +656,12 @@ img { max-width: 100%; }
 .bmi-input-group input {
   width: 100%;
   padding: 16px 18px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
   font-size: 1rem;
   font-family: var(--font-body);
   transition: all 0.3s ease;
@@ -829,6 +831,34 @@ img { max-width: 100%; }
   opacity: 0.8; 
   display: block;
   margin-top: 4px;
+}
+
+
+/* ===== FIX NUMBER INPUT SPINNERS ===== */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  background: transparent;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* ===== CENTER BMI SECTION ===== */
+.bmi-section .section-header {
+  margin-bottom: 50px;
+}
+
+.bmi-section .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bmi-wrapper {
+  margin: 0 auto;
 }
 
 /* ===== FOOTER ===== */
