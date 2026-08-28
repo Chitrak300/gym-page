@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronForge Gym — Forge Your Best Self</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#home" class="logo">
+        <span class="logo-icon">⚙</span> IronForge
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#membership">Membership</a></li>
+        <li><a href="#trainers">Trainers</a></li>
+        <li><a href="#bmi">BMI Calculator</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO / HOME ===== -->
+  <section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <p class="hero-tag">Welcome to IronForge Gym</p>
+      <h1 class="hero-title">Forge Your<br /><span class="accent">Best Self</span></h1>
+      <p class="hero-sub">Transform your body and mind with world-class trainers, cutting-edge equipment, and a community that pushes you to be your best every single day.</p>
+      <div class="hero-actions">
+        <a href="#membership" class="btn btn-primary">View Plans</a>
+        <a href="#bmi" class="btn btn-outline">Calculate BMI</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number" data-target="5000">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Active Members</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="25">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Expert Trainers</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="150">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Weekly Classes</span>
+        </div>
+      </div>
+    </div>
+    <a href="#membership" class="scroll-indicator" aria-label="Scroll down">
+      <span class="scroll-arrow">↓</span>
+    </a>
+  </section>
+
+  <!-- ===== MEMBERSHIP / PRICING ===== -->
+  <section class="membership" id="membership">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Pricing Plans</p>
+        <h2 class="section-title">Choose Your <span class="accent">Membership</span></h2>
+        <p class="section-desc">Flexible plans designed to match every fitness goal and budget. No hidden fees — cancel anytime.</p>
+      </div>
+
+      <div class="plans-grid">
+
+        <!-- Basic Plan -->
+        <div class="plan-card">
+          <div class="plan-icon">🏃</div>
+          <h3 class="plan-name">Basic</h3>
+          <p class="plan-tagline">Perfect for beginners</p>
+          <div class="plan-price">
+            <span class="currency">$</span><span class="amount">29</span><span class="period">/mo</span>
+          </div>
+          <ul class="plan-features">
+            <li>✓ Access to gym floor</li>
+            <li>✓ Basic equipment usage</li>
+            <li>✓ Locker room access</li>
+            <li>✓ Free WiFi</li>
+            <li class="disabled">✗ Group classes</li>
+            <li class="disabled">✗ Personal trainer</li>
+            <li class="disabled">✗ Sauna &amp; spa</li>
+          </ul>
+          <a href="#" class="btn btn-outline plan-btn">Get Started</a>
+        </div>
+
+        <!-- Pro Plan (Featured) -->
+        <div class="plan-card featured">
+          <div class="plan-badge">Most Popular</div>
+          <div class="plan-icon">💪</div>
+          <h3 class="plan-name">Pro</h3>
+          <p class="plan-tagline">For serious athletes</p>
+          <div class="plan-price">
+            <span class="currency">$</span><span class="amount">59</span><span class="period">/mo</span>
+          </div>
+          <ul class="plan-features">
+            <li>✓ Everything in Basic</li>
+            <li>✓ All group classes</li>
+            <li>✓ 2 PT sessions / month</li>
+            <li>✓ Nutrition guidance</li>
+            <li>✓ Sauna access</li>
+            <li class="disabled">✗ Unlimited PT sessions</li>
+            <li class="disabled">✗ VIP lounge</li>
+          </ul>
+          <a href="#" class="btn btn-primary plan-btn">Get Started</a>
+        </div>
+
+        <!-- Elite Plan -->
+        <div class="plan-card">
+          <div class="plan-icon">🏆</div>
+          <h3 class="plan-name">Elite</h3>
+          <p class="plan-tagline">The ultimate experience</p>
+          <div class="plan-price">
+            <span class="currency">$</span><span class="amount">99</span><span class="period">/mo</span>
+          </div>
+          <ul class="plan-features">
+            <li>✓ Everything in Pro</li>
+            <li>✓ Unlimited PT sessions</li>
+            <li>✓ Custom meal plans</li>
+            <li>✓ Full spa &amp; recovery</li>
+            <li>✓ VIP lounge access</li>
+            <li>✓ Priority class booking</li>
+            <li>✓ Guest passes (2/mo)</li>
+          </ul>
+          <a href="#" class="btn btn-outline plan-btn">Get Started</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRAINERS ===== -->
+  <section class="trainers" id="trainers">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Meet the Team</p>
+        <h2 class="section-title">Expert <span class="accent">Trainers</span></h2>
+        <p class="section-desc">Our certified professionals are dedicated to helping you reach your peak potential.</p>
+      </div>
+
+      <div class="trainers-grid">
+
+        <div class="trainer-card">
+          <div class="trainer-avatar">
+            <div class="avatar-placeholder">MJ</div>
+          </div>
+          <h3 class="trainer-name">Marcus Johnson</h3>
+          <p class="trainer-specialty">Strength &amp; Conditioning</p>
+          <p class="trainer-bio">10+ years of experience in powerlifting and functional fitness. NSCA-CSCS certified.</p>
+          <div class="trainer-socials">
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+
+        <div class="trainer-card">
+          <div class="trainer-avatar">
+            <div class="avatar-placeholder">SR</div>
+          </div>
+          <h3 class="trainer-name">Sarah Rodriguez</h3>
+          <p class="trainer-specialty">HIIT &amp; Cardio</p>
+          <p class="trainer-bio">Former competitive CrossFit athlete. Specializes in high-intensity interval training and endurance.</p>
+          <div class="trainer-socials">
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+
+        <div class="trainer-card">
+          <div class="trainer-avatar">
+            <div class="avatar-placeholder">DK</div>
+          </div>
+          <h3 class="trainer-name">David Kim</h3>
+          <p class="trainer-specialty">Yoga &amp; Mobility</p>
+          <p class="trainer-bio">RYT-500 certified yoga instructor with a background in physical therapy and injury prevention.</p>
+          <div class="trainer-socials">
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+
+        <div class="trainer-card">
+          <div class="trainer-avatar">
+            <div class="avatar-placeholder">AW</div>
+          </div>
+          <h3 class="trainer-name">Aisha Williams</h3>
+          <p class="trainer-specialty">Nutrition &amp; Weight Loss</p>
+          <p class="trainer-bio">Registered dietitian and ACE-certified personal trainer. Expert in body recomposition.</p>
+          <div class="trainer-socials">
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BMI CALCULATOR ===== -->
+  <section class="bmi-section" id="bmi">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Health Check</p>
+        <h2 class="section-title">BMI <span class="accent">Calculator</span></h2>
+        <p class="section-desc">Enter your details below to calculate your Body Mass Index and understand where you stand.</p>
+      </div>
+
+      <div class="bmi-wrapper">
+        <div class="bmi-form-card">
+          <div class="bmi-input-group">
+            <label for="bmiUnit">Unit</label>
+            <div class="bmi-toggle">
+              <button class="toggle-btn active" data-unit="metric">Metric</button>
+              <button class="toggle-btn" data-unit="imperial">Imperial</button>
+            </div>
+          </div>
+
+          <div id="metricInputs">
+            <div class="bmi-input-group">
+              <label for="heightCm">Height (cm)</label>
+              <input type="number" id="heightCm" placeholder="e.g. 175" min="50" max="300" />
+            </div>
+            <div class="bmi-input-group">
+              <label for="weightKg">Weight (kg)</label>
+              <input type="number" id="weightKg" placeholder="e.g. 70" min="10" max="500" />
+            </div>
+          </div>
+
+          <div id="imperialInputs" style="display:none;">
+            <div class="bmi-row">
+              <div class="bmi-input-group">
+                <label for="heightFt">Height (ft)</label>
+                <input type="number" id="heightFt" placeholder="e.g. 5" min="1" max="9" />
+              </div>
+              <div class="bmi-input-group">
+                <label for="heightIn">Height (in)</label>
+                <input type="number" id="heightIn" placeholder="e.g. 9" min="0" max="11" />
+              </div>
+            </div>
+            <div class="bmi-row">
+              <div class="bmi-input-group">
+                <label for="weightLbs">Weight (lbs)</label>
+                <input type="number" id="weightLbs" placeholder="e.g. 154" min="20" max="1100" />
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-full" id="calculateBtn">Calculate BMI</button>
+        </div>
+
+        <div class="bmi-result-card" id="bmiResult" style="display:none;">
+          <div class="bmi-gauge">
+            <svg viewBox="0 0 200 120" class="gauge-svg">
+              <defs>
+                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#22c55e" />
+                  <stop offset="35%" stop-color="#84cc16" />
+                  <stop offset="50%" stop-color="#eab308" />
+                  <stop offset="70%" stop-color="#f97316" />
+                  <stop offset="100%" stop-color="#ef4444" />
+                </linearGradient>
+              </defs>
+              <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e5e7eb" stroke-width="12" stroke-linecap="round" />
+              <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gaugeGrad)" stroke-width="12" stroke-linecap="round" />
+              <line id="gaugeNeedle" x1="100" y1="100" x2="100" y2="25" stroke="#fff" stroke-width="3" stroke-linecap="round" transform-origin="100 100" />
+            </svg>
+          </div>
+          <div class="bmi-value" id="bmiValue">--</div>
+          <div class="bmi-category" id="bmiCategory">Enter your details</div>
+          <div class="bmi-scale">
+            <span class="scale-item underweight">Underweight<br/><small>&lt; 18.5</small></span>
+            <span class="scale-item normal">Normal<br/><small>18.5 – 24.9</small></span>
+            <span class="scale-item overweight">Overweight<br/><small>25 – 29.9</small></span>
+            <span class="scale-item obese">Obese<br/><small>≥ 30</small></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <a href="#home" class="logo"><span class="logo-icon">⚙</span> IronForge</a>
+        <p>Forging stronger bodies and minds since 2015. Your journey to peak fitness starts here.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#membership">Membership</a>
+        <a href="#trainers">Trainers</a>
+        <a href="#bmi">BMI Calculator</a>
+      </div>
+      <div class="footer-links">
+        <h4>Hours</h4>
+        <p>Mon – Fri: 5 AM – 11 PM</p>
+        <p>Saturday: 6 AM – 10 PM</p>
+        <p>Sunday: 7 AM – 8 PM</p>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <p>📍 123 Fitness Ave, Gym City</p>
+        <p>📞 (555) 123-4567</p>
+        <p>✉️ info@ironforge.gym</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 IronForge Gym. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
