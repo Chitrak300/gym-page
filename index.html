@@ -625,9 +625,11 @@ img { max-width: 100%; }
 }
 
 .bmi-form-card, .bmi-result-card {
-    width: 100%;
+    width: 300%;
     max-width: 800px;
-    margin: 0 auto;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     background: linear-gradient(145deg, rgba(30, 30, 40, 0.9) 0%, rgba(20, 20, 30, 0.95) 100%);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
