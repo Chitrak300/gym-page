@@ -1250,6 +1250,117 @@ img { max-width: 100%; }
   margin-top: 12px;
 }
 
+/* Custom Select Dropdown */
+.custom-select {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+.custom-select-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.custom-select:hover .custom-select-display {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.custom-select.active .custom-select-display {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+}
+
+.custom-select-icon {
+  width: 16px;
+  height: 16px;
+  stroke: var(--accent);
+  flex-shrink: 0;
+}
+
+.custom-select-text {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+.custom-select-text.placeholder {
+  color: var(--text-muted);
+}
+
+.custom-select-arrow {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+}
+
+.custom-select.active .custom-select-arrow {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: rgba(18, 18, 26, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 6px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.custom-select.active .custom-select-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.custom-select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.custom-select-option:hover {
+  background: rgba(230, 57, 70, 0.08);
+  color: var(--text-primary);
+}
+
+.custom-select-option.selected {
+  background: rgba(230, 57, 70, 0.12);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.option-check {
+  opacity: 0;
+  color: var(--accent);
+  transition: opacity 0.2s;
+}
+
+.custom-select-option.selected .option-check {
+  opacity: 1;
+}
+
 /* Cost Summary */
 .join-cost-summary {
   background: rgba(0, 0, 0, 0.3);
@@ -2564,9 +2675,53 @@ function toggleTrainerFields() {
   document.getElementById('joinTrainerFields').style.display = checked ? 'block' : 'none';
   if (!checked) {
     document.getElementById('joinTrainerMonths').value = '';
+    const textEl = document.getElementById('trainerDurationText');
+    if (textEl) {
+      textEl.textContent = 'Select months';
+      textEl.classList.add('placeholder');
+    }
+    const select = document.getElementById('trainerDurationSelect');
+    if (select) select.classList.remove('active');
+    document.querySelectorAll('#trainerDurationSelect .custom-select-option').forEach(o => o.classList.remove('selected'));
   }
   updateJoinCost();
 }
+
+function toggleCustomDropdown(id) {
+  const select = document.getElementById(id);
+  select.classList.toggle('active');
+}
+
+function selectTrainerDuration(e, value, label) {
+  e.stopPropagation();
+  const hiddenInput = document.getElementById('joinTrainerMonths');
+  const textEl = document.getElementById('trainerDurationText');
+  const select = document.getElementById('trainerDurationSelect');
+
+  hiddenInput.value = value;
+  textEl.textContent = label;
+  textEl.classList.remove('placeholder');
+
+  // Update selected state on options
+  select.querySelectorAll('.custom-select-option').forEach(opt => {
+    opt.classList.remove('selected');
+  });
+  e.currentTarget.classList.add('selected');
+
+  // Close dropdown
+  select.classList.remove('active');
+
+  updateJoinCost();
+}
+
+// Close custom dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('.custom-select.active').forEach(select => {
+    if (!select.contains(e.target)) {
+      select.classList.remove('active');
+    }
+  });
+});
 
 function updateJoinCost() {
   const planVal = parseInt(document.getElementById('joinPlan').value) || 0;
@@ -2741,14 +2896,38 @@ function handleJoinSubmit(e) {
           </label>
           <div class="join-trainer-fields" id="joinTrainerFields" style="display:none;">
             <label for="joinTrainerMonths"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Trainer Duration (Months)</label>
-            <select id="joinTrainerMonths" onchange="updateJoinCost()">
-              <option value="" disabled selected>Select months</option>
-              <option value="1">1 Month</option>
-              <option value="2">2 Months</option>
-              <option value="3">3 Months</option>
-              <option value="6">6 Months</option>
-              <option value="12">12 Months</option>
-            </select>
+            <input type="hidden" id="joinTrainerMonths" value="" />
+            <div class="custom-select" id="trainerDurationSelect" onclick="toggleCustomDropdown('trainerDurationSelect')">
+              <div class="custom-select-display">
+                <svg class="custom-select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span class="custom-select-text" id="trainerDurationText">Select months</span>
+              </div>
+              <div class="custom-select-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="custom-select-dropdown">
+                <div class="custom-select-option" onclick="selectTrainerDuration(event, '1', '1 Month')">
+                  <span>1 Month</span>
+                  <svg class="option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="custom-select-option" onclick="selectTrainerDuration(event, '2', '2 Months')">
+                  <span>2 Months</span>
+                  <svg class="option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="custom-select-option" onclick="selectTrainerDuration(event, '3', '3 Months')">
+                  <span>3 Months</span>
+                  <svg class="option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="custom-select-option" onclick="selectTrainerDuration(event, '6', '6 Months')">
+                  <span>6 Months</span>
+                  <svg class="option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="custom-select-option" onclick="selectTrainerDuration(event, '12', '12 Months')">
+                  <span>12 Months</span>
+                  <svg class="option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="join-cost-summary" id="joinCostSummary">
