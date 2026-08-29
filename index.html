@@ -1146,6 +1146,7 @@ img { max-width: 100%; }
 .join-trainer-toggle {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   cursor: pointer;
   padding: 12px 16px;
@@ -1159,38 +1160,33 @@ img { max-width: 100%; }
   border-color: rgba(230, 57, 70, 0.3);
 }
 
-.join-trainer-toggle input {
-  display: none;
-}
-
-.join-trainer-slider {
-  width: 42px;
-  height: 22px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 11px;
-  position: relative;
-  transition: background 0.3s;
+.join-trainer-checkbox {
+  width: 20px;
+  height: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
   flex-shrink: 0;
+  transition: all 0.2s;
 }
 
-.join-trainer-slider::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform 0.3s;
-}
-
-.join-trainer-toggle input:checked + .join-trainer-slider {
+.join-trainer-checkbox:checked {
   background: var(--accent);
+  border-color: var(--accent);
 }
 
-.join-trainer-toggle input:checked + .join-trainer-slider::after {
-  transform: translateX(20px);
+.join-trainer-checkbox:checked::after {
+  content: '✓';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: -1px;
 }
 
 .join-trainer-label {
@@ -2676,9 +2672,8 @@ function handleJoinSubmit(e) {
         </div>
         <div class="join-form-group">
           <label class="join-trainer-toggle">
-            <input type="checkbox" id="joinTrainer" onchange="toggleTrainerFields()">
-            <span class="join-trainer-slider"></span>
             <span class="join-trainer-label">Personal Trainer (₹2,000/mo)</span>
+            <input type="checkbox" id="joinTrainer" onchange="toggleTrainerFields()" class="join-trainer-checkbox">
           </label>
         </div>
         <div class="join-form-group join-trainer-fields" id="joinTrainerFields" style="display:none;">
