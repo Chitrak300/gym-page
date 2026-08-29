@@ -987,6 +987,294 @@ img { max-width: 100%; }
   margin-bottom: 24px;
 }
 
+/* ===== JOIN NOW MODAL ===== */
+.join-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  align-items: center;
+  justify-content: center;
+}
+
+.join-modal.active {
+  display: flex;
+}
+
+.join-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.join-modal-content {
+  position: relative;
+  background: linear-gradient(145deg, #1a1a2e 0%, #111118 100%);
+  border: 1px solid rgba(230, 57, 70, 0.2);
+  border-radius: 20px;
+  padding: 36px 32px;
+  width: 92%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  animation: joinSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes joinSlideIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.join-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.join-modal-close:hover {
+  color: var(--accent);
+}
+
+.join-modal-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.join-modal-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(230, 57, 70, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.2);
+}
+
+.join-modal-icon svg {
+  width: 26px;
+  height: 26px;
+  stroke: var(--accent);
+}
+
+.join-modal-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.join-modal-header p {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.join-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.join-form-group {
+  margin-bottom: 16px;
+}
+
+.join-form-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+
+.join-form-group input,
+.join-form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.join-form-group input::placeholder {
+  color: var(--text-muted);
+}
+
+.join-form-group input:focus,
+.join-form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+}
+
+.join-form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  cursor: pointer;
+}
+
+.join-form-group select option {
+  background: #1a1a2e;
+  color: var(--text-primary);
+}
+
+.join-form-group select option:disabled {
+  color: var(--text-muted);
+}
+
+/* Trainer Toggle */
+.join-trainer-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  transition: border-color 0.3s;
+}
+
+.join-trainer-toggle:hover {
+  border-color: rgba(230, 57, 70, 0.3);
+}
+
+.join-trainer-toggle input {
+  display: none;
+}
+
+.join-trainer-slider {
+  width: 42px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+.join-trainer-slider::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.join-trainer-toggle input:checked + .join-trainer-slider {
+  background: var(--accent);
+}
+
+.join-trainer-toggle input:checked + .join-trainer-slider::after {
+  transform: translateX(20px);
+}
+
+.join-trainer-label {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.join-trainer-fields {
+  animation: joinSlideIn 0.3s ease;
+}
+
+/* Cost Summary */
+.join-cost-summary {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.join-cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.join-cost-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 8px 0;
+}
+
+.join-cost-total {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.join-cost-total span:last-child {
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+}
+
+.join-submit-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 0.95rem;
+}
+
+.join-success {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.join-success-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 14px;
+}
+
+.join-success-icon svg {
+  width: 60px;
+  height: 60px;
+}
+
+.join-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  color: #22c55e;
+}
+
+.join-success p {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+}
+
 /* ===== WHATSAPP FLOAT ===== */
 .whatsapp-float {
   position: fixed;
@@ -1512,7 +1800,7 @@ input[type=number] {
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#bmi">BMI Calculator</a></li>
       </ul>
-      <a href="#membership" class="nav-join-btn">Join Now</a>
+      <button type="button" class="nav-join-btn" onclick="openJoinModal()">Join Now</button>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
@@ -2182,6 +2470,94 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// ===== JOIN NOW MODAL =====
+const PLAN_PRICES = { 1999: 1999, 3999: 3999, 6999: 6999 };
+const TRAINER_COST = 2000;
+
+function openJoinModal() {
+  const modal = document.getElementById('joinModal');
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('joinForm').reset();
+  document.getElementById('joinSuccess').style.display = 'none';
+  document.getElementById('joinForm').style.display = 'block';
+  document.getElementById('joinTrainerFields').style.display = 'none';
+  updateJoinCost();
+}
+
+function closeJoinModal() {
+  document.getElementById('joinModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const joinModal = document.getElementById('joinModal');
+    if (joinModal && joinModal.classList.contains('active')) {
+      closeJoinModal();
+    }
+  }
+});
+
+function toggleTrainerFields() {
+  const checked = document.getElementById('joinTrainer').checked;
+  document.getElementById('joinTrainerFields').style.display = checked ? 'block' : 'none';
+  if (!checked) {
+    document.getElementById('joinTrainerMonths').value = '';
+  }
+  updateJoinCost();
+}
+
+function updateJoinCost() {
+  const planVal = parseInt(document.getElementById('joinPlan').value) || 0;
+  const months = parseInt(document.getElementById('joinMonths').value) || 0;
+  const hasTrainer = document.getElementById('joinTrainer').checked;
+  const trainerMonths = parseInt(document.getElementById('joinTrainerMonths').value) || 0;
+
+  const planTotal = planVal * months;
+  const trainerTotal = hasTrainer ? TRAINER_COST * trainerMonths : 0;
+  const total = planTotal + trainerTotal;
+
+  document.getElementById('joinPlanCost').textContent = planTotal > 0 ? '₹' + planTotal.toLocaleString('en-IN') : '₹0';
+  document.getElementById('joinTrainerCost').textContent = trainerTotal > 0 ? '₹' + trainerTotal.toLocaleString('en-IN') : '₹0';
+  document.getElementById('joinTotalCost').textContent = total > 0 ? '₹' + total.toLocaleString('en-IN') : '₹0';
+}
+
+function handleJoinSubmit(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('joinName').value.trim();
+  const phone = document.getElementById('joinPhone').value.trim();
+  const email = document.getElementById('joinEmail').value.trim();
+  const plan = document.getElementById('joinPlan').value;
+  const months = document.getElementById('joinMonths').value;
+  const hasTrainer = document.getElementById('joinTrainer').checked;
+  const trainerMonths = document.getElementById('joinTrainerMonths').value;
+
+  if (!/^[0-9]{10}$/.test(phone)) {
+    alert('Please enter a valid 10-digit phone number.');
+    return;
+  }
+
+  if (!plan || !months) {
+    alert('Please select a plan and membership duration.');
+    return;
+  }
+
+  if (hasTrainer && !trainerMonths) {
+    alert('Please select trainer duration or disable the trainer option.');
+    return;
+  }
+
+  if (hasTrainer && parseInt(trainerMonths) > parseInt(months)) {
+    alert('Trainer duration cannot exceed membership duration.');
+    return;
+  }
+
+  document.getElementById('joinForm').style.display = 'none';
+  document.getElementById('joinSuccess').style.display = 'block';
+}
+
 </script>
 
   <!-- ===== BOOKING MODAL ===== -->
@@ -2245,6 +2621,101 @@ document.addEventListener('DOMContentLoaded', () => {
         <h3>Booking Confirmed!</h3>
         <p>We'll contact you shortly to confirm your visit.</p>
         <button class="btn btn-outline" onclick="closeBookingModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== JOIN NOW MODAL ===== -->
+  <div class="join-modal" id="joinModal">
+    <div class="join-modal-overlay" onclick="closeJoinModal()"></div>
+    <div class="join-modal-content">
+      <button class="join-modal-close" onclick="closeJoinModal()" aria-label="Close">&times;</button>
+      <div class="join-modal-header">
+        <div class="join-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        </div>
+        <h3>Join IronForge</h3>
+        <p>Start your fitness journey today</p>
+      </div>
+      <form class="join-form" id="joinForm" onsubmit="handleJoinSubmit(event)">
+        <div class="join-form-row">
+          <div class="join-form-group">
+            <label for="joinName">Full Name</label>
+            <input type="text" id="joinName" placeholder="Enter your full name" required>
+          </div>
+          <div class="join-form-group">
+            <label for="joinPhone">Phone Number</label>
+            <input type="tel" id="joinPhone" placeholder="10-digit number" pattern="[0-9]{10}" required>
+          </div>
+        </div>
+        <div class="join-form-group">
+          <label for="joinEmail">Email Address</label>
+          <input type="email" id="joinEmail" placeholder="Enter your email" required>
+        </div>
+        <div class="join-form-row">
+          <div class="join-form-group">
+            <label for="joinPlan">Choose Plan</label>
+            <select id="joinPlan" required onchange="updateJoinCost()">
+              <option value="" disabled selected>Select a plan</option>
+              <option value="1999">Basic — ₹1,999/mo</option>
+              <option value="3999">Pro — ₹3,999/mo</option>
+              <option value="6999">Elite — ₹6,999/mo</option>
+            </select>
+          </div>
+          <div class="join-form-group">
+            <label for="joinMonths">Membership Months</label>
+            <select id="joinMonths" required onchange="updateJoinCost()">
+              <option value="" disabled selected>Select months</option>
+              <option value="1">1 Month</option>
+              <option value="2">2 Months</option>
+              <option value="3">3 Months</option>
+              <option value="6">6 Months</option>
+              <option value="12">12 Months</option>
+            </select>
+          </div>
+        </div>
+        <div class="join-form-group">
+          <label class="join-trainer-toggle">
+            <input type="checkbox" id="joinTrainer" onchange="toggleTrainerFields()">
+            <span class="join-trainer-slider"></span>
+            <span class="join-trainer-label">Personal Trainer (₹2,000/mo)</span>
+          </label>
+        </div>
+        <div class="join-form-group join-trainer-fields" id="joinTrainerFields" style="display:none;">
+          <label for="joinTrainerMonths">Trainer Duration (Months)</label>
+          <select id="joinTrainerMonths" onchange="updateJoinCost()">
+            <option value="" disabled selected>Select months</option>
+            <option value="1">1 Month</option>
+            <option value="2">2 Months</option>
+            <option value="3">3 Months</option>
+            <option value="6">6 Months</option>
+            <option value="12">12 Months</option>
+          </select>
+        </div>
+        <div class="join-cost-summary" id="joinCostSummary">
+          <div class="join-cost-row">
+            <span>Plan cost</span>
+            <span id="joinPlanCost">₹0</span>
+          </div>
+          <div class="join-cost-row">
+            <span>Trainer cost</span>
+            <span id="joinTrainerCost">₹0</span>
+          </div>
+          <div class="join-cost-divider"></div>
+          <div class="join-cost-row join-cost-total">
+            <span>Total</span>
+            <span id="joinTotalCost">₹0</span>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary join-submit-btn">Confirm & Join</button>
+      </form>
+      <div class="join-success" id="joinSuccess" style="display:none;">
+        <div class="join-success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Welcome to IronForge!</h3>
+        <p>Your membership has been confirmed. We'll send details to your email.</p>
+        <button class="btn btn-outline" onclick="closeJoinModal()">Close</button>
       </div>
     </div>
   </div>
