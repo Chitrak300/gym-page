@@ -842,15 +842,17 @@ img { max-width: 100%; }
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
+  border-radius: 14px;
   background: rgba(230, 57, 70, 0.1);
-  border: 1px solid rgba(230, 57, 70, 0.2);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  transform: rotate(45deg);
 }
 
 .booking-modal-icon svg {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   stroke: var(--accent);
+  transform: rotate(-45deg);
 }
 
 .booking-modal-header h3 {
@@ -865,12 +867,22 @@ img { max-width: 100%; }
   font-size: 0.85rem;
 }
 
+.form-label-icon {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  margin-right: 4px;
+  stroke: var(--accent);
+}
+
 .booking-form-group {
   margin-bottom: 18px;
 }
 
 .booking-form-group label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0;
   font-size: 0.78rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.6);
@@ -955,6 +967,18 @@ img { max-width: 100%; }
   padding: 16px;
   font-size: 1rem;
   letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--accent) 0%, #c1121f 100%);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.booking-submit-btn:hover {
+  background: linear-gradient(135deg, #ff4757 0%, var(--accent) 100%);
+  box-shadow: 0 6px 24px rgba(230, 57, 70, 0.4);
+  transform: translateY(-2px);
 }
 
 .booking-success {
@@ -1058,13 +1082,15 @@ img { max-width: 100%; }
   justify-content: center;
   border-radius: 14px;
   background: rgba(230, 57, 70, 0.1);
-  border: 1px solid rgba(230, 57, 70, 0.2);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  transform: rotate(45deg);
 }
 
 .join-modal-icon svg {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   stroke: var(--accent);
+  transform: rotate(-45deg);
 }
 
 .join-modal-header h3 {
@@ -1090,7 +1116,9 @@ img { max-width: 100%; }
 }
 
 .join-form-group label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0;
   font-size: 0.75rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.6);
@@ -1167,6 +1195,9 @@ img { max-width: 100%; }
 .join-trainer-label {
   font-size: 0.88rem;
   color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .join-trainer-price-badge {
@@ -1200,6 +1231,18 @@ img { max-width: 100%; }
   color: white;
   font-size: 14px;
   font-weight: bold;
+}
+
+.join-trainer-fields label {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
 }
 
 .join-trainer-fields {
@@ -1248,6 +1291,18 @@ img { max-width: 100%; }
   width: 100%;
   padding: 15px;
   font-size: 0.95rem;
+  background: linear-gradient(135deg, var(--accent) 0%, #c1121f 100%);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.join-submit-btn:hover {
+  background: linear-gradient(135deg, #ff4757 0%, var(--accent) 100%);
+  box-shadow: 0 6px 24px rgba(230, 57, 70, 0.4);
+  transform: translateY(-2px);
 }
 
 .join-success {
@@ -2574,28 +2629,28 @@ function handleJoinSubmit(e) {
         <div class="booking-modal-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         </div>
-        <h3>Book a Visit</h3>
+        <h3>Book a <span style="color:var(--accent)">Visit</span></h3>
         <p>Schedule your free gym visit today</p>
       </div>
       <form class="booking-form" id="bookingForm" onsubmit="handleBookingSubmit(event)">
         <div class="booking-form-group">
-          <label for="bookingName">Full Name</label>
+          <label for="bookingName"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Full Name</label>
           <input type="text" id="bookingName" name="name" placeholder="Enter your full name" required>
         </div>
         <div class="booking-form-group">
-          <label for="bookingPhone">Phone Number</label>
+          <label for="bookingPhone"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Phone Number</label>
           <input type="tel" id="bookingPhone" name="phone" placeholder="Enter your phone number" pattern="[0-9]{10}" required>
         </div>
         <div class="booking-form-group">
-          <label for="bookingEmail">Email Address</label>
+          <label for="bookingEmail"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email Address</label>
           <input type="email" id="bookingEmail" name="email" placeholder="Enter your email" required>
         </div>
         <div class="booking-form-group">
-          <label for="bookingDate">Visit Date</label>
+          <label for="bookingDate"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Visit Date</label>
           <input type="date" id="bookingDate" name="date" required>
         </div>
         <div class="booking-form-group">
-          <label for="bookingTime">Visiting Time</label>
+          <label for="bookingTime"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Visiting Time</label>
           <select id="bookingTime" name="time" required>
             <option value="" disabled selected>Select a time slot</option>
             <option value="06:00-07:00">6:00 AM - 7:00 AM</option>
@@ -2617,7 +2672,7 @@ function handleJoinSubmit(e) {
           </select>
           <span class="booking-time-hint">Gym hours: 6:00 AM - 10:00 PM (Mon-Sat) | Closed on Sunday</span>
         </div>
-        <button type="submit" class="btn btn-primary booking-submit-btn">Confirm Booking</button>
+        <button type="submit" class="btn btn-primary booking-submit-btn">Confirm Booking <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </form>
       <div class="booking-success" id="bookingSuccess" style="display:none;">
         <div class="booking-success-icon">
@@ -2639,27 +2694,27 @@ function handleJoinSubmit(e) {
         <div class="join-modal-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
         </div>
-        <h3>Join IronForge</h3>
+        <h3>Join <span style="color:var(--accent)">IronForge</span></h3>
         <p>Start your fitness journey today</p>
       </div>
       <form class="join-form" id="joinForm" onsubmit="handleJoinSubmit(event)">
         <div class="join-form-row">
           <div class="join-form-group">
-            <label for="joinName">Full Name</label>
+            <label for="joinName"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Full Name</label>
             <input type="text" id="joinName" placeholder="Enter your full name" required>
           </div>
           <div class="join-form-group">
-            <label for="joinPhone">Phone Number</label>
+            <label for="joinPhone"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Phone Number</label>
             <input type="tel" id="joinPhone" placeholder="10-digit number" pattern="[0-9]{10}" required>
           </div>
         </div>
         <div class="join-form-group">
-          <label for="joinEmail">Email Address</label>
+          <label for="joinEmail"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email Address</label>
           <input type="email" id="joinEmail" placeholder="Enter your email" required>
         </div>
         <div class="join-form-row">
           <div class="join-form-group">
-            <label for="joinPlan">Choose Plan</label>
+            <label for="joinPlan"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Choose Plan</label>
             <select id="joinPlan" required onchange="updateJoinCost()">
               <option value="" disabled selected>Select a plan</option>
               <option value="1999">Basic — ₹1,999/mo</option>
@@ -2668,7 +2723,7 @@ function handleJoinSubmit(e) {
             </select>
           </div>
           <div class="join-form-group">
-            <label for="joinMonths">Membership Months</label>
+            <label for="joinMonths"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Membership Months</label>
             <select id="joinMonths" required onchange="updateJoinCost()">
               <option value="" disabled selected>Select months</option>
               <option value="1">1 Month</option>
@@ -2681,11 +2736,11 @@ function handleJoinSubmit(e) {
         </div>
         <div class="join-trainer-section">
           <label class="join-trainer-toggle">
-            <span class="join-trainer-label">Need a Personal Trainer? <span class="join-trainer-price-badge">₹2,000/mo</span></span>
+            <span class="join-trainer-label"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg> Need a Personal Trainer? <span class="join-trainer-price-badge">₹2,000/mo</span></span>
             <input type="checkbox" id="joinTrainer" onchange="toggleTrainerFields()" class="join-trainer-checkbox">
           </label>
           <div class="join-trainer-fields" id="joinTrainerFields" style="display:none;">
-            <label for="joinTrainerMonths">Trainer Duration (Months)</label>
+            <label for="joinTrainerMonths"><svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Trainer Duration (Months)</label>
             <select id="joinTrainerMonths" onchange="updateJoinCost()">
               <option value="" disabled selected>Select months</option>
               <option value="1">1 Month</option>
@@ -2711,7 +2766,7 @@ function handleJoinSubmit(e) {
             <span id="joinTotalCost">₹0</span>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary join-submit-btn">Confirm & Join</button>
+        <button type="submit" class="btn btn-primary join-submit-btn">Confirm & Join <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </form>
       <div class="join-success" id="joinSuccess" style="display:none;">
         <div class="join-success-icon">
