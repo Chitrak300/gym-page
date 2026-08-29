@@ -182,6 +182,24 @@ img { max-width: 100%; }
 .nav-links a:hover { color: var(--text-primary); }
 .nav-links a:hover::after { width: 100%; }
 
+.nav-join-btn {
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.nav-join-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--accent-glow);
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -618,6 +636,7 @@ img { max-width: 100%; }
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   position: relative;
@@ -627,9 +646,7 @@ img { max-width: 100%; }
 .bmi-form-card, .bmi-result-card {
     width: 300%;
     max-width: 800px;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 0 auto;
     background: linear-gradient(145deg, rgba(30, 30, 40, 0.9) 0%, rgba(20, 20, 30, 0.95) 100%);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -930,6 +947,7 @@ input[type=number] {
   }
 
   .nav-links.open { display: flex; }
+  .nav-join-btn { display: none; }
   .nav-toggle { display: flex; }
 
   .nav-toggle.active span:nth-child(1) {
@@ -980,6 +998,7 @@ input[type=number] {
         <li><a href="#trainers">Trainers</a></li>
         <li><a href="#bmi">BMI Calculator</a></li>
       </ul>
+      <a href="#membership" class="nav-join-btn">Join Now</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
