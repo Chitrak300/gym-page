@@ -509,6 +509,67 @@ img { max-width: 100%; }
 }
 
 
+/* ===== GALLERY ===== */
+.gallery {
+  padding: 120px 0;
+  background: var(--bg-primary);
+}
+
+.gallery .section-header {
+  margin-bottom: 60px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 250px;
+  gap: 16px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.gallery-item-wide {
+  grid-column: span 2;
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-label {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
 /* ===== WHATSAPP FLOAT ===== */
 .whatsapp-float {
   position: fixed;
@@ -969,12 +1030,15 @@ input[type=number] {
   }
 
   .trainers-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
   .bmi-wrapper { grid-template-columns: 1fr; }
   .footer-content { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 480px) {
   .trainers-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 180px; }
+  .gallery-item-wide { grid-column: span 1; }
   .footer-content { grid-template-columns: 1fr; }
   .bmi-row { grid-template-columns: 1fr; }
 }
@@ -996,6 +1060,7 @@ input[type=number] {
         <li><a href="#home">Home</a></li>
         <li><a href="#membership">Membership</a></li>
         <li><a href="#trainers">Trainers</a></li>
+        <li><a href="#gallery">Gallery</a></li>
         <li><a href="#bmi">BMI Calculator</a></li>
       </ul>
       <a href="#membership" class="nav-join-btn">Join Now</a>
@@ -1179,6 +1244,67 @@ input[type=number] {
           </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Our Space</p>
+        <h2 class="section-title">Gym <span class="accent">Gallery</span></h2>
+        <p class="section-desc">Take a look inside our state-of-the-art facility and see what awaits you.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item gallery-item-wide">
+          <img src="images/gallery1.jpg" alt="Gym Floor" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-label">Gym Floor</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/gallery2.jpg" alt="Weight Area" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-label">Weight Area</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/gallery3.jpg" alt="Cardio Zone" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-label">Cardio Zone</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/gallery4.jpg" alt="Strength Training" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-label">Strength Training</span>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item-wide">
+          <img src="images/gallery5.jpg" alt="Functional Area" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-label">Functional Area</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/gallery6.jpg" alt="Free Weights" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-label">Free Weights</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/gallery7.jpg" alt="Equipment" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-label">Equipment</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/gallery8.jpg" alt="Training Session" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-label">Training Session</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1469,7 +1595,7 @@ document.head.appendChild(shakeStyle);
 // ===== SCROLL REVEAL ANIMATION =====
 function setupReveal() {
   const revealElements = document.querySelectorAll(
-    '.plan-card, .trainer-card, .section-header, .bmi-form-card, .bmi-result-card'
+    '.plan-card, .trainer-card, .section-header, .bmi-form-card, .bmi-result-card, .gallery-item'
   );
 
   const revealObserver = new IntersectionObserver((entries) => {
