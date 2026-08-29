@@ -1996,21 +1996,12 @@ window.addEventListener('scroll', () => {
 });
 
 // ===== BOOKING MODAL =====
-const bookingModal = document.getElementById('bookingModal');
-const bookingForm = document.getElementById('bookingForm');
-const bookingSuccess = document.getElementById('bookingSuccess');
-const bookingDate = document.getElementById('bookingDate');
-const bookingTime = document.getElementById('bookingTime');
-
-// Set min date to today
-const today = new Date().toISOString().split('T')[0];
-bookingDate.setAttribute('min', today);
-
-// Set time constraints (6 AM - 10 PM)
-bookingTime.setAttribute('min', '06:00');
-bookingTime.setAttribute('max', '22:00');
+let bookingModal, bookingForm, bookingSuccess, bookingDate, bookingTime;
 
 function openBookingModal() {
+  bookingModal = document.getElementById('bookingModal');
+  bookingForm = document.getElementById('bookingForm');
+  bookingSuccess = document.getElementById('bookingSuccess');
   bookingModal.classList.add('active');
   document.body.style.overflow = 'hidden';
   bookingForm.reset();
@@ -2019,19 +2010,16 @@ function openBookingModal() {
 }
 
 function closeBookingModal() {
+  bookingModal = document.getElementById('bookingModal');
   bookingModal.classList.remove('active');
   document.body.style.overflow = '';
 }
 
-// Close modal on Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && bookingModal.classList.contains('active')) {
-    closeBookingModal();
-  }
-});
-
 function handleBookingSubmit(e) {
   e.preventDefault();
+
+  bookingDate = document.getElementById('bookingDate');
+  bookingTime = document.getElementById('bookingTime');
 
   const name = document.getElementById('bookingName').value.trim();
   const phone = document.getElementById('bookingPhone').value.trim();
@@ -2057,7 +2045,26 @@ function handleBookingSubmit(e) {
   bookingSuccess.style.display = 'block';
 }
 
-</script>
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('bookingModal');
+    if (modal && modal.classList.contains('active')) {
+      closeBookingModal();
+    }
+  }
+});
+
+// Set min date and time constraints when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  bookingDate = document.getElementById('bookingDate');
+  bookingTime = document.getElementById('bookingTime');
+  if (bookingDate) bookingDate.setAttribute('min', new Date().toISOString().split('T')[0]);
+  if (bookingTime) {
+    bookingTime.setAttribute('min', '06:00');
+    bookingTime.setAttribute('max', '22:00');
+  }
+});
 
   <!-- ===== BOOKING MODAL ===== -->
   <div class="booking-modal" id="bookingModal">
@@ -2105,6 +2112,8 @@ function handleBookingSubmit(e) {
       </div>
     </div>
   </div>
+
+</script>
 
   <!-- ===== FLOATING WHATSAPP BUTTON ===== -->
   <a href="https://wa.me/919876543210?text=Hi%20IronForge%20Gym!%20I%20want%20to%20know%20more%20about%20membership." 
