@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const { google } = require('googleapis');
 const path = require('path');
 const crypto = require('crypto');
 
@@ -34,27 +33,10 @@ const PLANS = {
 const TRAINER_MONTHLY = 2000;
 const ALLOWED_DURATIONS = [1, 2, 3, 6, 12];
 
-// ===== GOOGLE SHEETS SETUP =====
-let sheetsClient = null;
-
-async function getSheetsClient() {
-  if (sheetsClient) return sheetsClient;
-
-  try {
-    const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      },
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-
-    sheetsClient = google.sheets({ version: 'v4', auth });
-    return sheetsClient;
-  } catch (err) {
-    console.error('Google Sheets auth failed:', err.message);
-    throw new Error('Failed to initialize Google Sheets client');
-  }
+// ===== GOOGLE APPS SCRIPT URL =====
+const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL;
+if (!GOOGLE_SCRIPT_URL) {
+  console.error('WARNING: GOOGLE_SCRIPT_URL is not set in .env');
 }
 
 // ===== UNIQUE MEMBER ID GENERATOR =====
@@ -81,6 +63,10 @@ function sanitize(str) {
 // ===== MAIN API ENDPOINT =====
 app.post('/api/membership', membershipLimiter, async (req, res) => {
   try {
+    if (!GOOGLE_SCRIPT_URL) {
+      return res.status(500).json({ success: false, error: 'Server configuration error.' });
+    }
+
     const {
       name, phone, email, plan, months,
       hasTrainer, trainerMonths
@@ -137,41 +123,49 @@ app.post('/api/membership', membershipLimiter, async (req, res) => {
     // --- Generate unique Member ID ---
     const memberId = generateMemberId();
 
-    // --- Prepare row data ---
-    const now = new Date();
-    const joinDate = now.toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' });
-    const joinTime = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-
-    const row = [
+    // --- Prepare payload for Google Apps Script ---
+    const payload = {
       memberId,
-      sanitize(name),
-      cleanPhone,
-      sanitize(email),
-      planLabel,
-      `${duration} Month${duration > 1 ? 's' : ''}`,
-      trainer ? 'Yes' : 'No',
-      trainer ? `${trainerDur} Month${trainerDur > 1 ? 's' : ''}` : 'N/A',
-      `₹${planTotal.toLocaleString('en-IN')}`,
-      trainer ? `₹${trainerTotal.toLocaleString('en-IN')}` : '₹0',
-      `₹${total.toLocaleString('en-IN')}`,
-      'Pending',
-      'Pending',
-      joinDate,
-      joinTime,
-    ];
+      name: sanitize(name),
+      phone: cleanPhone,
+      email: sanitize(email),
+      plan: planLabel,
+      months: `${duration} Month${duration > 1 ? 's' : ''}`,
+      trainer: trainer ? 'Yes' : 'No',
+      trainerMonths: trainer ? `${trainerDur} Month${trainerDur > 1 ? 's' : ''}` : 'N/A',
+      planCost: `₹${planTotal.toLocaleString('en-IN')}`,
+      trainerCost: trainer ? `₹${trainerTotal.toLocaleString('en-IN')}` : '₹0',
+      total: `₹${total.toLocaleString('en-IN')}`,
+      paymentStatus: 'Pending',
+      membershipStatus: 'Pending',
+    };
 
-    // --- Write to Google Sheets ---
-    const sheets = await getSheetsClient();
-    const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
-    const range = process.env.GOOGLE_SHEET_RANGE || 'Memberships!A:O';
-
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range,
-      valueInputOption: 'USER_ENTERED',
-      insertDataOption: 'INSERT_ROWS',
-      requestBody: { values: [row] },
+    // --- Send to Google Apps Script Web App ---
+    // Google Apps Script redirects 302 on first POST; follow redirects automatically
+    const scriptResponse = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      redirect: 'follow',
     });
+
+    if (!scriptResponse.ok) {
+      const errorText = await scriptResponse.text();
+      console.error('Google Apps Script error:', scriptResponse.status, errorText);
+      return res.status(502).json({
+        success: false,
+        error: 'Failed to submit to Google Sheets. Please try again.',
+      });
+    }
+
+    // Try to parse Apps Script response (it may return JSON or plain text)
+    let scriptData;
+    try {
+      scriptData = await scriptResponse.json();
+    } catch {
+      scriptData = await scriptResponse.text();
+    }
+    console.log('Google Apps Script response:', scriptData);
 
     // --- Return safe response ---
     return res.status(200).json({
@@ -187,8 +181,6 @@ app.post('/api/membership', membershipLimiter, async (req, res) => {
       totalAmount: `₹${total.toLocaleString('en-IN')}`,
       paymentStatus: 'Pending',
       membershipStatus: 'Pending',
-      joinDate,
-      joinTime,
     });
 
   } catch (err) {

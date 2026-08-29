@@ -3119,8 +3119,12 @@ function handleJoinSubmit(e) {
     document.getElementById('cardMemberId').textContent = data.memberId;
     document.getElementById('cardPlan').textContent = data.plan;
     document.getElementById('cardDuration').textContent = data.duration;
-    document.getElementById('cardJoinDate').textContent = data.joinDate;
+    document.getElementById('cardJoinDate').textContent = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' });
     document.getElementById('cardTotal').textContent = data.totalAmount;
+
+    // Build trainer info for display and WhatsApp
+    const trainerInfo = data.hasTrainer ? `Yes (${data.trainerDuration})` : 'No';
+    document.getElementById('cardTrainer').textContent = trainerInfo;
 
     // Set WhatsApp link with pre-filled message
     const waMsg = encodeURIComponent(
@@ -3129,6 +3133,7 @@ function handleJoinSubmit(e) {
       `Name: ${data.name}\n` +
       `Plan: ${data.plan}\n` +
       `Duration: ${data.duration}\n` +
+      `Trainer: ${trainerInfo}\n` +
       `Total: ${data.totalAmount}\n\n` +
       `I would like to complete my membership payment.`
     );
@@ -3176,6 +3181,8 @@ function downloadMembershipCard() {
     });
   }).catch(() => {
     // Fallback: create a text file
+    const joinDate = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    const trainerInfo = data.hasTrainer ? `Yes (${data.trainerDuration})` : 'No';
     const content = `
 ╔══════════════════════════════════════╗
 ║        IRONFORGE GYM                 ║
@@ -3185,7 +3192,8 @@ function downloadMembershipCard() {
 ║ Member ID:    ${data.memberId.padEnd(24)}║
 ║ Plan:         ${data.plan.padEnd(24)}║
 ║ Duration:     ${data.duration.padEnd(24)}║
-║ Join Date:    ${data.joinDate.padEnd(24)}║
+║ Trainer:      ${trainerInfo.padEnd(24)}║
+║ Join Date:    ${joinDate.padEnd(24)}║
 ║ Total:        ${data.totalAmount.padEnd(24)}║
 ╠══════════════════════════════════════╣
 ║ Payment:      PENDING                ║
@@ -3516,6 +3524,10 @@ setupFieldValidation();
               <div class="membership-card-row">
                 <span class="membership-card-label">Duration</span>
                 <span class="membership-card-value" id="cardDuration">—</span>
+              </div>
+              <div class="membership-card-row">
+                <span class="membership-card-label">Trainer</span>
+                <span class="membership-card-value" id="cardTrainer">—</span>
               </div>
               <div class="membership-card-row">
                 <span class="membership-card-label">Join Date</span>
