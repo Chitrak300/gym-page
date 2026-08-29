@@ -1422,42 +1422,317 @@ img { max-width: 100%; }
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transition: all 0.3s;
 }
 
-.join-submit-btn:hover {
+.join-submit-btn:hover:not(:disabled) {
   background: linear-gradient(135deg, #ff4757 0%, var(--accent) 100%);
   box-shadow: 0 6px 24px rgba(230, 57, 70, 0.4);
   transform: translateY(-2px);
 }
 
+.join-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Membership Success & Card */
 .join-success {
   text-align: center;
-  padding: 20px 0;
+  padding: 10px 0 20px;
 }
 
-.join-success-icon {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 14px;
+.membership-success-header {
+  margin-bottom: 20px;
 }
 
-.join-success-icon svg {
-  width: 60px;
-  height: 60px;
+.membership-success-emoji {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
 }
 
-.join-success h3 {
+.membership-success-header h3 {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.membership-welcome {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.membership-welcome strong {
+  color: var(--accent);
+}
+
+/* Digital Membership Card */
+.membership-card {
+  background: linear-gradient(145deg, #1a1a2e 0%, #0f0f18 100%);
+  border: 1px solid rgba(230, 57, 70, 0.25);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 0 auto 16px;
+  max-width: 380px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+.membership-card-inner {
+  padding: 0;
+}
+
+.membership-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 12px;
+}
+
+.membership-card-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.membership-card-logo svg {
+  stroke: var(--accent);
+}
+
+.membership-card-logo span {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--text-primary);
+}
+
+.membership-card-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  background: rgba(230, 57, 70, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.membership-card-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(230, 57, 70, 0.3), transparent);
+  margin: 0 20px;
+}
+
+.membership-card-body {
+  padding: 14px 20px;
+}
+
+.membership-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.membership-card-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.membership-card-value {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.membership-card-id {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+.membership-card-amount {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+.membership-card-footer {
+  padding: 12px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.membership-card-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 12px;
+  border-radius: 20px;
+}
+
+.status-pending {
+  background: rgba(234, 179, 8, 0.15);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.membership-note {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  padding: 10px;
+  background: rgba(234, 179, 8, 0.05);
+  border: 1px solid rgba(234, 179, 8, 0.15);
+  border-radius: 8px;
+}
+
+.membership-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.membership-action-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  font-size: 0.9rem;
+  background: linear-gradient(135deg, var(--accent) 0%, #c1121f 100%);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.membership-action-btn:hover {
+  background: linear-gradient(135deg, #ff4757 0%, var(--accent) 100%);
+  box-shadow: 0 6px 24px rgba(230, 57, 70, 0.4);
+  transform: translateY(-2px);
+}
+
+.membership-whatsapp-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  font-size: 0.9rem;
+  background: #25D366;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+.membership-whatsapp-btn:hover {
+  background: #20bd5a;
+  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
+  transform: translateY(-2px);
+}
+
+.membership-back-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  font-size: 0.9rem;
+}
+
+.membership-contact-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Error Screen */
+.join-error {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.join-error-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.join-error h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
   letter-spacing: 2px;
   margin-bottom: 8px;
-  color: #22c55e;
+  color: #ef4444;
 }
 
-.join-success p {
+.join-error p {
   color: var(--text-secondary);
   font-size: 0.88rem;
   margin-bottom: 20px;
+}
+
+/* Loading Screen */
+.join-loading {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.join-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.join-loading p {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
 }
 
 /* ===== WHATSAPP FLOAT ===== */
@@ -2680,8 +2955,12 @@ function openJoinModal() {
   document.body.style.overflow = 'hidden';
   document.getElementById('joinForm').reset();
   document.getElementById('joinSuccess').style.display = 'none';
+  document.getElementById('joinError').style.display = 'none';
+  document.getElementById('joinLoading').style.display = 'none';
   document.getElementById('joinForm').style.display = 'block';
   document.getElementById('joinTrainerFields').style.display = 'none';
+  document.getElementById('joinSubmitBtn').disabled = false;
+  document.getElementById('joinSubmitBtn').innerHTML = 'Confirm & Join <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
   updateJoinCost();
 }
 
@@ -2814,8 +3093,111 @@ function handleJoinSubmit(e) {
     return;
   }
 
+  // Show loading, disable button
+  const submitBtn = document.getElementById('joinSubmitBtn');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="btn-spinner"></span> Submitting...';
   document.getElementById('joinForm').style.display = 'none';
-  document.getElementById('joinSuccess').style.display = 'block';
+  document.getElementById('joinError').style.display = 'none';
+  document.getElementById('joinLoading').style.display = 'block';
+
+  // Send to API
+  fetch('/api/membership', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name, phone, email, plan, months,
+      hasTrainer, trainerMonths
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (!data.success) throw new Error(data.error || 'Submission failed');
+
+    // Populate membership card
+    document.getElementById('cardName').textContent = data.name;
+    document.getElementById('cardMemberId').textContent = data.memberId;
+    document.getElementById('cardPlan').textContent = data.plan;
+    document.getElementById('cardDuration').textContent = data.duration;
+    document.getElementById('cardJoinDate').textContent = data.joinDate;
+    document.getElementById('cardTotal').textContent = data.totalAmount;
+
+    // Set WhatsApp link with pre-filled message
+    const waMsg = encodeURIComponent(
+      `Hi, I have submitted a membership request.\n\n` +
+      `Member ID: ${data.memberId}\n` +
+      `Name: ${data.name}\n` +
+      `Plan: ${data.plan}\n` +
+      `Duration: ${data.duration}\n` +
+      `Total: ${data.totalAmount}\n\n` +
+      `I would like to complete my membership payment.`
+    );
+    document.getElementById('membershipWhatsApp').href = `https://wa.me/919876543210?text=${waMsg}`;
+
+    // Store data for download
+    window._membershipData = data;
+
+    // Show success screen
+    document.getElementById('joinLoading').style.display = 'none';
+    document.getElementById('joinSuccess').style.display = 'block';
+  })
+  .catch(err => {
+    console.error('Join submission error:', err);
+    document.getElementById('joinLoading').style.display = 'none';
+    document.getElementById('joinError').style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'Confirm & Join <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+  });
+}
+
+function retryJoinSubmission() {
+  document.getElementById('joinError').style.display = 'none';
+  document.getElementById('joinForm').style.display = 'block';
+  document.getElementById('joinSubmitBtn').disabled = false;
+  document.getElementById('joinSubmitBtn').innerHTML = 'Confirm & Join <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+}
+
+function downloadMembershipCard() {
+  const card = document.getElementById('membershipCard');
+  const data = window._membershipData;
+  if (!data) return;
+
+  // Use canvas to capture the card
+  import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js').then(({ default: html2canvas }) => {
+    html2canvas(card, {
+      backgroundColor: '#0f0f18',
+      scale: 2,
+      useCORS: true,
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = `IronForge-${data.memberId}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  }).catch(() => {
+    // Fallback: create a text file
+    const content = `
+╔══════════════════════════════════════╗
+║        IRONFORGE GYM                 ║
+║      DIGITAL MEMBERSHIP              ║
+╠══════════════════════════════════════╣
+║ Member Name:  ${data.name.padEnd(24)}║
+║ Member ID:    ${data.memberId.padEnd(24)}║
+║ Plan:         ${data.plan.padEnd(24)}║
+║ Duration:     ${data.duration.padEnd(24)}║
+║ Join Date:    ${data.joinDate.padEnd(24)}║
+║ Total:        ${data.totalAmount.padEnd(24)}║
+╠══════════════════════════════════════╣
+║ Payment:      PENDING                ║
+║ Membership:   PENDING                ║
+╚══════════════════════════════════════╝
+    `;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.download = `IronForge-${data.memberId}.txt`;
+    link.href = URL.createObjectURL(blob);
+    link.click();
+  });
 }
 
 // ===== FIELD VALIDATION HELPERS =====
@@ -3097,15 +3479,99 @@ setupFieldValidation();
             <span id="joinTotalCost">₹0</span>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary join-submit-btn">Confirm & Join <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        <button type="submit" id="joinSubmitBtn" class="btn btn-primary join-submit-btn">Confirm & Join <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
       </form>
       <div class="join-success" id="joinSuccess" style="display:none;">
-        <div class="join-success-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <!-- Success Header -->
+        <div class="membership-success-header">
+          <div class="membership-success-emoji">🎉</div>
+          <h3>Membership Request Submitted!</h3>
+          <p class="membership-welcome">Welcome to <strong>IronForge Gym</strong></p>
         </div>
-        <h3>Welcome to IronForge!</h3>
-        <p>Your membership has been confirmed. We'll send details to your email.</p>
-        <button class="btn btn-outline" onclick="closeJoinModal()">Close</button>
+
+        <!-- Digital Membership Card -->
+        <div class="membership-card" id="membershipCard">
+          <div class="membership-card-inner">
+            <div class="membership-card-top">
+              <div class="membership-card-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M6.5 6.5h11M6.5 17.5h11M8 6.5V4M16 6.5V4M8 17.5v2.5M16 17.5v2.5M4 10h16M4 14h16"/></svg>
+                <span>IRONFORGE</span>
+              </div>
+              <div class="membership-card-badge">DIGITAL MEMBERSHIP</div>
+            </div>
+            <div class="membership-card-divider"></div>
+            <div class="membership-card-body">
+              <div class="membership-card-row">
+                <span class="membership-card-label">Member Name</span>
+                <span class="membership-card-value" id="cardName">—</span>
+              </div>
+              <div class="membership-card-row">
+                <span class="membership-card-label">Member ID</span>
+                <span class="membership-card-value membership-card-id" id="cardMemberId">—</span>
+              </div>
+              <div class="membership-card-row">
+                <span class="membership-card-label">Membership Plan</span>
+                <span class="membership-card-value" id="cardPlan">—</span>
+              </div>
+              <div class="membership-card-row">
+                <span class="membership-card-label">Duration</span>
+                <span class="membership-card-value" id="cardDuration">—</span>
+              </div>
+              <div class="membership-card-row">
+                <span class="membership-card-label">Join Date</span>
+                <span class="membership-card-value" id="cardJoinDate">—</span>
+              </div>
+              <div class="membership-card-row">
+                <span class="membership-card-label">Total Amount</span>
+                <span class="membership-card-value membership-card-amount" id="cardTotal">—</span>
+              </div>
+            </div>
+            <div class="membership-card-divider"></div>
+            <div class="membership-card-footer">
+              <div class="membership-card-status">
+                <span class="status-label">Payment Status:</span>
+                <span class="status-badge status-pending">PENDING</span>
+              </div>
+              <div class="membership-card-status">
+                <span class="status-label">Membership Status:</span>
+                <span class="status-badge status-pending">PENDING</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="membership-note">⚠️ Payment Required — Your membership will become active after payment is confirmed by the gym.</p>
+
+        <div class="membership-actions">
+          <button class="btn btn-primary membership-action-btn" onclick="downloadMembershipCard()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Membership Card
+          </button>
+          <a class="btn membership-whatsapp-btn" id="membershipWhatsApp" href="#" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 32 32" fill="white" width="18" height="18"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.054 9.378L1.054 31.25l6.14-1.982A15.91 15.91 0 0016.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.316 22.602c-.39 1.098-1.93 2.01-3.15 2.27-.834.178-1.922.32-5.6-1.204-4.696-1.95-7.71-6.736-7.94-7.05-.224-.314-1.86-2.478-1.86-4.726 0-2.248 1.182-3.348 1.604-3.81.39-.428.934-.54 1.242-.54.31 0 .618.004.89.016.286.012.668-.108 1.04.794.39.95 1.334 3.246 1.45 3.484.116.238.194.514.038.828-.156.314-.234.51-.468.786-.234.276-.492.616-.702.828-.234.238-.478.494-.204.962.274.468 1.218 2.01 2.612 3.256 1.794 1.6 3.304 2.096 3.772 2.33.468.234.742.194 1.016-.118.274-.312 1.16-1.35 1.474-1.818.312-.468.626-.39 1.056-.234.434.156 2.744 1.294 3.216 1.53.468.238.78.354.896.55.116.196.116 1.142-.274 2.24z"/></svg>
+            Contact Gym on WhatsApp
+          </a>
+          <button class="btn btn-outline membership-back-btn" onclick="closeJoinModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to Website
+          </button>
+        </div>
+
+        <p class="membership-contact-hint">Complete your payment at the gym or contact us on WhatsApp.</p>
+      </div>
+
+      <!-- Error Screen -->
+      <div class="join-error" id="joinError" style="display:none;">
+        <div class="join-error-icon">⚠️</div>
+        <h3>Submission Failed</h3>
+        <p>Something went wrong. Your membership request was not submitted.</p>
+        <button class="btn btn-primary" onclick="retryJoinSubmission()">Try Again</button>
+      </div>
+
+      <!-- Loading Screen -->
+      <div class="join-loading" id="joinLoading" style="display:none;">
+        <div class="join-loading-spinner"></div>
+        <p>Submitting your membership request...</p>
       </div>
     </div>
   </div>
