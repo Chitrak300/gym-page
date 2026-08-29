@@ -88,6 +88,19 @@ img { max-width: 100%; }
   color: var(--accent);
 }
 
+.btn-accent {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-accent:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 20px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
 .btn-full { width: 100%; }
 
 /* ===== SECTION HEADERS ===== */
@@ -714,6 +727,185 @@ img { max-width: 100%; }
   letter-spacing: 1px;
 }
 
+/* ===== BOOKING MODAL ===== */
+.booking-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+}
+
+.booking-modal.active {
+  display: flex;
+}
+
+.booking-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.booking-modal-content {
+  position: relative;
+  background: linear-gradient(145deg, #1a1a2e 0%, #111118 100%);
+  border: 1px solid rgba(230, 57, 70, 0.2);
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 90%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  animation: bookingSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes bookingSlideIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.booking-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.booking-modal-close:hover {
+  color: var(--accent);
+}
+
+.booking-modal-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.booking-modal-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(230, 57, 70, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.2);
+}
+
+.booking-modal-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--accent);
+}
+
+.booking-modal-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.booking-modal-header p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.booking-form-group {
+  margin-bottom: 18px;
+}
+
+.booking-form-group label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.booking-form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.booking-form-group input::placeholder {
+  color: var(--text-muted);
+}
+
+.booking-form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+}
+
+.booking-form-group input:invalid:not(:placeholder-shown) {
+  border-color: #ef4444;
+}
+
+.booking-time-hint {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+}
+
+.booking-submit-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 16px;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.booking-success {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.booking-success-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+}
+
+.booking-success-icon svg {
+  width: 64px;
+  height: 64px;
+}
+
+.booking-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  color: #22c55e;
+}
+
+.booking-success p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
 /* ===== WHATSAPP FLOAT ===== */
 .whatsapp-float {
   position: fixed;
@@ -1234,6 +1426,7 @@ input[type=number] {
       <div class="hero-actions">
         <a href="#membership" class="btn btn-primary">View Plans</a>
         <a href="#bmi" class="btn btn-outline">Calculate BMI</a>
+        <button type="button" class="btn btn-accent" onclick="openBookingModal()">Visit Booking</button>
       </div>
       <div class="hero-stats">
         <div class="stat">
@@ -1802,7 +1995,116 @@ window.addEventListener('scroll', () => {
   });
 });
 
+// ===== BOOKING MODAL =====
+const bookingModal = document.getElementById('bookingModal');
+const bookingForm = document.getElementById('bookingForm');
+const bookingSuccess = document.getElementById('bookingSuccess');
+const bookingDate = document.getElementById('bookingDate');
+const bookingTime = document.getElementById('bookingTime');
+
+// Set min date to today
+const today = new Date().toISOString().split('T')[0];
+bookingDate.setAttribute('min', today);
+
+// Set time constraints (6 AM - 10 PM)
+bookingTime.setAttribute('min', '06:00');
+bookingTime.setAttribute('max', '22:00');
+
+function openBookingModal() {
+  bookingModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  bookingForm.reset();
+  bookingSuccess.style.display = 'none';
+  bookingForm.style.display = 'block';
+}
+
+function closeBookingModal() {
+  bookingModal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && bookingModal.classList.contains('active')) {
+    closeBookingModal();
+  }
+});
+
+function handleBookingSubmit(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('bookingName').value.trim();
+  const phone = document.getElementById('bookingPhone').value.trim();
+  const email = document.getElementById('bookingEmail').value.trim();
+  const date = bookingDate.value;
+  const time = bookingTime.value;
+
+  // Validate phone (10 digits)
+  if (!/^[0-9]{10}$/.test(phone)) {
+    alert('Please enter a valid 10-digit phone number.');
+    return;
+  }
+
+  // Validate time is between 6 AM and 10 PM
+  const [hours] = time.split(':').map(Number);
+  if (hours < 6 || hours >= 22) {
+    alert('Please select a time between 6:00 AM and 10:00 PM (gym operating hours).');
+    return;
+  }
+
+  // Show success message
+  bookingForm.style.display = 'none';
+  bookingSuccess.style.display = 'block';
+}
+
 </script>
+
+  <!-- ===== BOOKING MODAL ===== -->
+  <div class="booking-modal" id="bookingModal">
+    <div class="booking-modal-overlay" onclick="closeBookingModal()"></div>
+    <div class="booking-modal-content">
+      <button class="booking-modal-close" onclick="closeBookingModal()" aria-label="Close">&times;</button>
+      <div class="booking-modal-header">
+        <div class="booking-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Book a Visit</h3>
+        <p>Schedule your free gym visit today</p>
+      </div>
+      <form class="booking-form" id="bookingForm" onsubmit="handleBookingSubmit(event)">
+        <div class="booking-form-group">
+          <label for="bookingName">Full Name</label>
+          <input type="text" id="bookingName" name="name" placeholder="Enter your full name" required>
+        </div>
+        <div class="booking-form-group">
+          <label for="bookingPhone">Phone Number</label>
+          <input type="tel" id="bookingPhone" name="phone" placeholder="Enter your phone number" pattern="[0-9]{10}" required>
+        </div>
+        <div class="booking-form-group">
+          <label for="bookingEmail">Email Address</label>
+          <input type="email" id="bookingEmail" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="booking-form-group">
+          <label for="bookingDate">Visit Date</label>
+          <input type="date" id="bookingDate" name="date" required>
+        </div>
+        <div class="booking-form-group">
+          <label for="bookingTime">Visiting Time</label>
+          <input type="time" id="bookingTime" name="time" min="06:00" max="22:00" required>
+          <span class="booking-time-hint">Gym hours: 6:00 AM - 10:00 PM</span>
+        </div>
+        <button type="submit" class="btn btn-primary booking-submit-btn">Confirm Booking</button>
+      </form>
+      <div class="booking-success" id="bookingSuccess" style="display:none;">
+        <div class="booking-success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Booking Confirmed!</h3>
+        <p>We'll contact you shortly to confirm your visit.</p>
+        <button class="btn btn-outline" onclick="closeBookingModal()">Close</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== FLOATING WHATSAPP BUTTON ===== -->
   <a href="https://wa.me/919876543210?text=Hi%20IronForge%20Gym!%20I%20want%20to%20know%20more%20about%20membership." 
