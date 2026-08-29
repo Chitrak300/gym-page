@@ -906,6 +906,41 @@ img { max-width: 100%; }
   border-color: #ef4444;
 }
 
+.booking-form-group select {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  cursor: pointer;
+}
+
+.booking-form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+}
+
+.booking-form-group select option {
+  background: #1a1a2e;
+  color: var(--text-primary);
+  padding: 10px;
+}
+
+.booking-form-group select option:disabled {
+  color: var(--text-muted);
+}
+
 .booking-time-hint {
   display: block;
   font-size: 0.72rem;
@@ -1831,9 +1866,8 @@ input[type=number] {
       </div>
       <div class="footer-links">
         <h4>Hours</h4>
-        <p>Mon – Fri: 5 AM – 11 PM</p>
-        <p>Saturday: 6 AM – 10 PM</p>
-        <p>Sunday: 7 AM – 8 PM</p>
+        <p>Mon – Sat: 6 AM – 10 PM</p>
+        <p>Sunday: Closed</p>
       </div>
       <div class="footer-links">
         <h4>Contact</h4>
@@ -2101,10 +2135,18 @@ function handleBookingSubmit(e) {
     return;
   }
 
-  // Validate time is between 6 AM and 10 PM
-  const [hours] = time.split(':').map(Number);
-  if (hours < 6 || hours >= 22) {
-    alert('Please select a time between 6:00 AM and 10:00 PM (gym operating hours).');
+  // Validate date is not Sunday
+  if (date) {
+    const day = new Date(date + 'T00:00:00').getDay();
+    if (day === 0) {
+      alert('The gym is closed on Sundays. Please choose a different date.');
+      return;
+    }
+  }
+
+  // Validate time slot is selected
+  if (!time) {
+    alert('Please select a visiting time slot.');
     return;
   }
 
@@ -2127,10 +2169,16 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   bookingDate = document.getElementById('bookingDate');
   bookingTime = document.getElementById('bookingTime');
-  if (bookingDate) bookingDate.setAttribute('min', new Date().toISOString().split('T')[0]);
-  if (bookingTime) {
-    bookingTime.setAttribute('min', '06:00');
-    bookingTime.setAttribute('max', '22:00');
+  if (bookingDate) {
+    bookingDate.setAttribute('min', new Date().toISOString().split('T')[0]);
+    // Warn user when they select Sunday
+    bookingDate.addEventListener('change', () => {
+      const day = new Date(bookingDate.value + 'T00:00:00').getDay();
+      if (day === 0) {
+        alert('The gym is closed on Sundays. Please choose a different date.');
+        bookingDate.value = '';
+      }
+    });
   }
 });
 
@@ -2167,8 +2215,26 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="booking-form-group">
           <label for="bookingTime">Visiting Time</label>
-          <input type="time" id="bookingTime" name="time" min="06:00" max="22:00" required>
-          <span class="booking-time-hint">Gym hours: 6:00 AM - 10:00 PM</span>
+          <select id="bookingTime" name="time" required>
+            <option value="" disabled selected>Select a time slot</option>
+            <option value="06:00-07:00">6:00 AM - 7:00 AM</option>
+            <option value="07:00-08:00">7:00 AM - 8:00 AM</option>
+            <option value="08:00-09:00">8:00 AM - 9:00 AM</option>
+            <option value="09:00-10:00">9:00 AM - 10:00 AM</option>
+            <option value="10:00-11:00">10:00 AM - 11:00 AM</option>
+            <option value="11:00-12:00">11:00 AM - 12:00 PM</option>
+            <option value="12:00-13:00">12:00 PM - 1:00 PM</option>
+            <option value="13:00-14:00">1:00 PM - 2:00 PM</option>
+            <option value="14:00-15:00">2:00 PM - 3:00 PM</option>
+            <option value="15:00-16:00">3:00 PM - 4:00 PM</option>
+            <option value="16:00-17:00">4:00 PM - 5:00 PM</option>
+            <option value="17:00-18:00">5:00 PM - 6:00 PM</option>
+            <option value="18:00-19:00">6:00 PM - 7:00 PM</option>
+            <option value="19:00-20:00">7:00 PM - 8:00 PM</option>
+            <option value="20:00-21:00">8:00 PM - 9:00 PM</option>
+            <option value="21:00-22:00">9:00 PM - 10:00 PM</option>
+          </select>
+          <span class="booking-time-hint">Gym hours: 6:00 AM - 10:00 PM (Mon-Sat) | Closed on Sunday</span>
         </div>
         <button type="submit" class="btn btn-primary booking-submit-btn">Confirm Booking</button>
       </form>
