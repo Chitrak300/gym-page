@@ -1147,156 +1147,64 @@ img { max-width: 100%; }
   margin-top: 8px;
 }
 
-.join-trainer-heading {
-  margin-bottom: 16px;
-}
-
-.join-trainer-heading h4 {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
-  margin: 0 0 4px;
-}
-
-.join-trainer-heading p {
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-  margin: 0;
-}
-
-.join-trainer-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-
-.join-trainer-card {
+.join-trainer-toggle {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  padding: 16px 10px 14px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
+  justify-content: space-between;
+  gap: 12px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.join-trainer-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(230, 57, 70, 0) 0%, rgba(230, 57, 70, 0) 100%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-.join-trainer-card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
-  transform: translateY(-3px);
-}
-
-.join-trainer-card:hover::before {
-  background: linear-gradient(135deg, rgba(230, 57, 70, 0.05) 0%, rgba(230, 57, 70, 0.02) 100%);
-  opacity: 1;
-}
-
-.join-trainer-card.selected {
-  border-color: var(--accent);
-  background: rgba(230, 57, 70, 0.08);
-  box-shadow: 0 0 20px rgba(230, 57, 70, 0.15), inset 0 0 0 1px rgba(230, 57, 70, 0.15);
-  transform: translateY(-3px);
-}
-
-.join-trainer-card.selected::before {
-  background: linear-gradient(135deg, rgba(230, 57, 70, 0.1) 0%, rgba(230, 57, 70, 0.03) 100%);
-  opacity: 1;
-}
-
-.join-trainer-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 10px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
   transition: border-color 0.3s;
-  flex-shrink: 0;
 }
 
-.join-trainer-card.selected .join-trainer-avatar {
-  border-color: var(--accent);
+.join-trainer-toggle:hover {
+  border-color: rgba(230, 57, 70, 0.3);
 }
 
-.join-trainer-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.join-trainer-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  margin-bottom: 8px;
-}
-
-.join-trainer-name {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.join-trainer-spec {
-  font-size: 0.7rem;
+.join-trainer-label {
+  font-size: 0.88rem;
   color: var(--text-secondary);
 }
 
-.join-trainer-price {
-  font-size: 0.72rem;
+.join-trainer-price-badge {
   font-weight: 600;
   color: var(--accent);
-  margin-top: 2px;
 }
 
-.join-trainer-check {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
+.join-trainer-checkbox {
+  width: 20px;
+  height: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
   flex-shrink: 0;
+  transition: all 0.2s;
 }
 
-.join-trainer-check svg {
-  width: 14px;
-  height: 14px;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: all 0.3s;
-}
-
-.join-trainer-card.selected .join-trainer-check {
+.join-trainer-checkbox:checked {
   background: var(--accent);
   border-color: var(--accent);
 }
 
-.join-trainer-card.selected .join-trainer-check svg {
-  opacity: 1;
-  transform: scale(1);
-  color: #fff;
+.join-trainer-checkbox:checked::after {
+  content: '\2713';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .join-trainer-fields {
   animation: joinSlideIn 0.3s ease;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 /* Cost Summary */
@@ -1865,7 +1773,6 @@ input[type=number] {
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
   .bmi-wrapper { grid-template-columns: 1fr; }
   .footer-content { grid-template-columns: 1fr 1fr; }
-  .join-trainer-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
 
 @media (max-width: 480px) {
@@ -1874,12 +1781,6 @@ input[type=number] {
   .gallery-item-wide { grid-column: span 1; }
   .footer-content { grid-template-columns: 1fr; }
   .bmi-row { grid-template-columns: 1fr; }
-  .join-trainer-cards { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .join-trainer-card { padding: 12px 8px 10px; }
-  .join-trainer-avatar { width: 44px; height: 44px; }
-  .join-trainer-name { font-size: 0.75rem; }
-  .join-trainer-spec { font-size: 0.65rem; }
-  .join-trainer-price { font-size: 0.68rem; }
 }
 
 </style>
@@ -2586,8 +2487,6 @@ function openJoinModal() {
   document.getElementById('joinSuccess').style.display = 'none';
   document.getElementById('joinForm').style.display = 'block';
   document.getElementById('joinTrainerFields').style.display = 'none';
-  document.querySelectorAll('.join-trainer-card').forEach(c => c.classList.remove('selected'));
-  document.getElementById('selectedTrainer').value = '';
   updateJoinCost();
 }
 
@@ -2605,18 +2504,11 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-function selectTrainer(card) {
-  const wasSelected = card.classList.contains('selected');
-  document.querySelectorAll('.join-trainer-card').forEach(c => c.classList.remove('selected'));
-
-  if (wasSelected) {
-    document.getElementById('selectedTrainer').value = '';
-    document.getElementById('joinTrainerFields').style.display = 'none';
+function toggleTrainerFields() {
+  const checked = document.getElementById('joinTrainer').checked;
+  document.getElementById('joinTrainerFields').style.display = checked ? 'block' : 'none';
+  if (!checked) {
     document.getElementById('joinTrainerMonths').value = '';
-  } else {
-    card.classList.add('selected');
-    document.getElementById('selectedTrainer').value = card.dataset.trainer;
-    document.getElementById('joinTrainerFields').style.display = 'block';
   }
   updateJoinCost();
 }
@@ -2624,7 +2516,7 @@ function selectTrainer(card) {
 function updateJoinCost() {
   const planVal = parseInt(document.getElementById('joinPlan').value) || 0;
   const months = parseInt(document.getElementById('joinMonths').value) || 0;
-  const hasTrainer = !!document.getElementById('selectedTrainer').value;
+  const hasTrainer = document.getElementById('joinTrainer').checked;
   const trainerMonths = parseInt(document.getElementById('joinTrainerMonths').value) || 0;
 
   const planTotal = planVal * months;
@@ -2644,7 +2536,7 @@ function handleJoinSubmit(e) {
   const email = document.getElementById('joinEmail').value.trim();
   const plan = document.getElementById('joinPlan').value;
   const months = document.getElementById('joinMonths').value;
-  const hasTrainer = !!document.getElementById('selectedTrainer').value;
+  const hasTrainer = document.getElementById('joinTrainer').checked;
   const trainerMonths = document.getElementById('joinTrainerMonths').value;
 
   if (!/^[0-9]{10}$/.test(phone)) {
@@ -2788,65 +2680,10 @@ function handleJoinSubmit(e) {
           </div>
         </div>
         <div class="join-trainer-section">
-          <div class="join-trainer-heading">
-            <h4>Choose Your Personal Trainer</h4>
-            <p>Get personalized guidance from our expert trainers. ₹2,000/mo</p>
-          </div>
-          <div class="join-trainer-cards">
-            <div class="join-trainer-card" data-trainer="vikram" onclick="selectTrainer(this)">
-              <div class="join-trainer-avatar">
-                <img src="images/trainer1.jpg" alt="Vikram" />
-              </div>
-              <div class="join-trainer-info">
-                <span class="join-trainer-name">Vikram Singh</span>
-                <span class="join-trainer-spec">Strength & Conditioning</span>
-                <span class="join-trainer-price">₹2,000/mo</span>
-              </div>
-              <div class="join-trainer-check">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-            </div>
-            <div class="join-trainer-card" data-trainer="raj" onclick="selectTrainer(this)">
-              <div class="join-trainer-avatar">
-                <img src="images/trainer2.jpg" alt="Raj" />
-              </div>
-              <div class="join-trainer-info">
-                <span class="join-trainer-name">Raj Patel</span>
-                <span class="join-trainer-spec">Weight Training</span>
-                <span class="join-trainer-price">₹2,000/mo</span>
-              </div>
-              <div class="join-trainer-check">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-            </div>
-            <div class="join-trainer-card" data-trainer="anita" onclick="selectTrainer(this)">
-              <div class="join-trainer-avatar">
-                <img src="images/trainer3.jpg" alt="Anita" />
-              </div>
-              <div class="join-trainer-info">
-                <span class="join-trainer-name">Anita Desai</span>
-                <span class="join-trainer-spec">HIIT & Cardio</span>
-                <span class="join-trainer-price">₹2,000/mo</span>
-              </div>
-              <div class="join-trainer-check">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-            </div>
-            <div class="join-trainer-card" data-trainer="meera" onclick="selectTrainer(this)">
-              <div class="join-trainer-avatar">
-                <img src="images/trainer4.jpg" alt="Meera" />
-              </div>
-              <div class="join-trainer-info">
-                <span class="join-trainer-name">Meera Nair</span>
-                <span class="join-trainer-spec">Yoga & Flexibility</span>
-                <span class="join-trainer-price">₹2,000/mo</span>
-              </div>
-              <div class="join-trainer-check">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-            </div>
-          </div>
-          <input type="hidden" id="selectedTrainer" value="" />
+          <label class="join-trainer-toggle">
+            <span class="join-trainer-label">Need a Personal Trainer? <span class="join-trainer-price-badge">₹2,000/mo</span></span>
+            <input type="checkbox" id="joinTrainer" onchange="toggleTrainerFields()" class="join-trainer-checkbox">
+          </label>
           <div class="join-trainer-fields" id="joinTrainerFields" style="display:none;">
             <label for="joinTrainerMonths">Trainer Duration (Months)</label>
             <select id="joinTrainerMonths" onchange="updateJoinCost()">
