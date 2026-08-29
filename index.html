@@ -875,6 +875,20 @@ img { max-width: 100%; }
   stroke: var(--accent);
 }
 
+.field-error-message {
+  display: block;
+  font-size: 0.72rem;
+  color: #ef4444;
+  margin-top: 6px;
+  padding-left: 2px;
+  animation: errorSlideIn 0.25s ease;
+}
+
+@keyframes errorSlideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .booking-form-group {
   margin-bottom: 18px;
 }
@@ -2588,11 +2602,26 @@ function handleBookingSubmit(e) {
   const date = bookingDate.value;
   const time = bookingTime.value;
 
-  // Validate phone (10 digits)
-  if (!/^[0-9]{10}$/.test(phone)) {
-    alert('Please enter a valid 10-digit phone number.');
+  // Validate name
+  if (!name) {
+    showFieldError('bookingName', 'Please enter your full name.');
     return;
   }
+  clearFieldError('bookingName');
+
+  // Validate phone (10 digits)
+  if (!/^[0-9]{10}$/.test(phone)) {
+    showFieldError('bookingPhone', 'Please enter a valid 10-digit phone number.');
+    return;
+  }
+  clearFieldError('bookingPhone');
+
+  // Validate email
+  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    showFieldError('bookingEmail', 'Please enter a valid email address.');
+    return;
+  }
+  clearFieldError('bookingEmail');
 
   // Validate date is not Sunday
   if (date) {
@@ -2749,10 +2778,26 @@ function handleJoinSubmit(e) {
   const hasTrainer = document.getElementById('joinTrainer').checked;
   const trainerMonths = document.getElementById('joinTrainerMonths').value;
 
-  if (!/^[0-9]{10}$/.test(phone)) {
-    alert('Please enter a valid 10-digit phone number.');
+  // Validate name
+  if (!name) {
+    showFieldError('joinName', 'Please enter your full name.');
     return;
   }
+  clearFieldError('joinName');
+
+  // Validate phone (10 digits)
+  if (!/^[0-9]{10}$/.test(phone)) {
+    showFieldError('joinPhone', 'Please enter a valid 10-digit phone number.');
+    return;
+  }
+  clearFieldError('joinPhone');
+
+  // Validate email
+  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    showFieldError('joinEmail', 'Please enter a valid email address.');
+    return;
+  }
+  clearFieldError('joinEmail');
 
   if (!plan || !months) {
     alert('Please select a plan and membership duration.');
@@ -2772,6 +2817,113 @@ function handleJoinSubmit(e) {
   document.getElementById('joinForm').style.display = 'none';
   document.getElementById('joinSuccess').style.display = 'block';
 }
+
+// ===== FIELD VALIDATION HELPERS =====
+function showFieldError(fieldId, message) {
+  const field = document.getElementById(fieldId);
+  if (!field) return;
+  clearFieldError(fieldId);
+  field.style.borderColor = '#ef4444';
+  field.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.15)';
+  const errorEl = document.createElement('span');
+  errorEl.className = 'field-error-message';
+  errorEl.textContent = message;
+  field.parentNode.appendChild(errorEl);
+  field.focus();
+}
+
+function clearFieldError(fieldId) {
+  const field = document.getElementById(fieldId);
+  if (!field) return;
+  field.style.borderColor = '';
+  field.style.boxShadow = '';
+  const parent = field.parentNode;
+  const existing = parent.querySelector('.field-error-message');
+  if (existing) existing.remove();
+}
+
+function isValidEmail(email) {
+  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+}
+
+function isValidPhone(phone) {
+  return /^[0-9]{10}$/.test(phone);
+}
+
+// ===== REAL-TIME VALIDATION =====
+function setupFieldValidation() {
+  // Join form fields
+  const joinPhone = document.getElementById('joinPhone');
+  const joinEmail = document.getElementById('joinEmail');
+
+  if (joinPhone) {
+    joinPhone.addEventListener('input', function() {
+      const val = this.value.trim();
+      if (val.length === 10) {
+        if (isValidPhone(val)) clearFieldError('joinPhone');
+        else showFieldError('joinPhone', 'Must be exactly 10 digits.');
+      } else if (val.length > 0) {
+        clearFieldError('joinPhone');
+      }
+    });
+    joinPhone.addEventListener('blur', function() {
+      const val = this.value.trim();
+      if (val.length > 0 && !isValidPhone(val)) {
+        showFieldError('joinPhone', 'Please enter a valid 10-digit phone number.');
+      }
+    });
+  }
+
+  if (joinEmail) {
+    joinEmail.addEventListener('input', function() {
+      const val = this.value.trim();
+      if (val.length > 0 && isValidEmail(val)) clearFieldError('joinEmail');
+    });
+    joinEmail.addEventListener('blur', function() {
+      const val = this.value.trim();
+      if (val.length > 0 && !isValidEmail(val)) {
+        showFieldError('joinEmail', 'Please enter a valid email address.');
+      }
+    });
+  }
+
+  // Booking form fields
+  const bookPhone = document.getElementById('bookingPhone');
+  const bookEmail = document.getElementById('bookingEmail');
+
+  if (bookPhone) {
+    bookPhone.addEventListener('input', function() {
+      const val = this.value.trim();
+      if (val.length === 10) {
+        if (isValidPhone(val)) clearFieldError('bookingPhone');
+        else showFieldError('bookingPhone', 'Must be exactly 10 digits.');
+      } else if (val.length > 0) {
+        clearFieldError('bookingPhone');
+      }
+    });
+    bookPhone.addEventListener('blur', function() {
+      const val = this.value.trim();
+      if (val.length > 0 && !isValidPhone(val)) {
+        showFieldError('bookingPhone', 'Please enter a valid 10-digit phone number.');
+      }
+    });
+  }
+
+  if (bookEmail) {
+    bookEmail.addEventListener('input', function() {
+      const val = this.value.trim();
+      if (val.length > 0 && isValidEmail(val)) clearFieldError('bookingEmail');
+    });
+    bookEmail.addEventListener('blur', function() {
+      const val = this.value.trim();
+      if (val.length > 0 && !isValidEmail(val)) {
+        showFieldError('bookingEmail', 'Please enter a valid email address.');
+      }
+    });
+  }
+}
+
+setupFieldValidation();
 
 </script>
 

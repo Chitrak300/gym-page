@@ -1412,6 +1412,21 @@ img { max-width: 100%; }
   color: #fff;
 }
 
+/* Field Validation */
+.field-error-message {
+  display: block;
+  font-size: 0.72rem;
+  color: #ef4444;
+  margin-top: 6px;
+  padding-left: 2px;
+  animation: errorSlideIn 0.25s ease;
+}
+
+@keyframes errorSlideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .join-trainer-fields {
   animation: joinSlideIn 0.3s ease;
   margin-top: 14px;
