@@ -1,17 +1,5 @@
 {
   "name": "ironforge-gym",
   "version": "1.0.0",
-  "description": "IronForge Gym - Landing Page",
-  "private": true,
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "helmet": "^7.1.0",
-    "express-rate-limit": "^7.1.5"
-  }
+  "private": true
 }
