@@ -1,8 +1,8 @@
 {
-  "name": "ironforge-gym-api",
+  "name": "ironforge-gym",
   "version": "1.0.0",
-  "description": "IronForge Gym - Membership Registration API",
-  "main": "server.js",
+  "description": "IronForge Gym - Landing Page",
+  "private": true,
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"
