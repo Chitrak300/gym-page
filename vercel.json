@@ -6,7 +6,19 @@
       "use": "@vercel/node"
     },
     {
+      "src": "public/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "styles.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "script.js",
       "use": "@vercel/static"
     }
   ],
@@ -14,6 +26,14 @@
     {
       "src": "/api/(.*)",
       "dest": "/api/$1"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "/public/images/$1"
+    },
+    {
+      "src": "/(.*\\.(css|js|jpg|jpeg|png|gif|svg|ico|webp))",
+      "dest": "/$1"
     }
   ]
 }
