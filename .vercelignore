@@ -1,5 +1,6 @@
 server.js
 node_modules/
+dist/
 .env
 .env.example
 .freebuff/
