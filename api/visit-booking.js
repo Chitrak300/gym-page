@@ -4,7 +4,7 @@ function sanitize(str) {
   return str.replace(/[<>\"'`;\\]/g, '').trim().slice(0, 200);
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -123,4 +123,4 @@ export default async function handler(req, res) {
       error: 'Something went wrong. Your booking was not submitted. Please try again.',
     });
   }
-}
+};
