@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 // ===== VALID PLAN CONFIG (server-side pricing) =====
 const PLANS = {
@@ -27,7 +27,7 @@ function sanitize(str) {
   return str.replace(/[<>\"'`;]/g, '').trim().slice(0, 200);
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
