@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#888"/>
+      <stop offset="50%" stop-color="#ddd"/>
+      <stop offset="100%" stop-color="#888"/>
+    </linearGradient>
+  </defs>
+  <!-- Left weight plate outer -->
+  <rect x="8" y="32" width="24" height="64" rx="8" fill="#c1121f"/>
+  <!-- Left weight plate inner -->
+  <rect x="16" y="40" width="16" height="48" rx="5" fill="#e63946"/>
+  <!-- Right weight plate outer -->
+  <rect x="96" y="32" width="24" height="64" rx="8" fill="#c1121f"/>
+  <!-- Right weight plate inner -->
+  <rect x="96" y="40" width="16" height="48" rx="5" fill="#e63946"/>
+  <!-- Bar -->
+  <rect x="0" y="54" width="128" height="20" rx="6" fill="url(#bar)"/>
+  <!-- Center grip -->
+  <rect x="48" y="50" width="32" height="28" rx="6" fill="#222"/>
+  <rect x="52" y="54" width="24" height="20" rx="4" fill="#333"/>
+</svg>
