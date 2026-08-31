@@ -1007,10 +1007,6 @@ img { max-width: 100%; }
     padding: 28px 20px;
     margin: 10vh auto;
   }
-  .booking-modal-content .modal-icon, .join-modal-content .modal-icon {
-    width: 44px;
-    height: 44px;
-  }
   .booking-modal-content h2, .join-modal-content h2 { font-size: 1.4rem; }
   .booking-form-group, .join-form-group { margin-bottom: 14px; }
   .booking-form-row, .join-form-row { grid-template-columns: 1fr; }
@@ -1168,25 +1164,7 @@ img { max-width: 100%; }
 
 .booking-modal-header {
   text-align: center;
-  margin-bottom: 28px;
-}
-
-.booking-modal-icon {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-  background: rgba(230, 57, 70, 0.1);
-  border: 1px solid rgba(230, 57, 70, 0.2);
-}
-
-.booking-modal-icon svg {
-  width: 28px;
-  height: 28px;
-  stroke: var(--accent);
+  margin-bottom: 20px;
 }
 
 .booking-modal-header h3 {
@@ -1378,25 +1356,7 @@ img { max-width: 100%; }
 
 .join-modal-header {
   text-align: center;
-  margin-bottom: 24px;
-}
-
-.join-modal-icon {
-  width: 52px;
-  height: 52px;
-  margin: 0 auto 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 14px;
-  background: rgba(230, 57, 70, 0.1);
-  border: 1px solid rgba(230, 57, 70, 0.2);
-}
-
-.join-modal-icon svg {
-  width: 26px;
-  height: 26px;
-  stroke: var(--accent);
+  margin-bottom: 16px;
 }
 
 .join-modal-header h3 {
