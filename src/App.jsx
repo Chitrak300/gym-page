@@ -426,7 +426,7 @@ function Footer() {
 }
 
 function BookingModal({ isOpen, onClose }) {
-  const [success, setSuccess] = useState(false)
+  const [screen, setScreen] = useState('form') // 'form' | 'loading' | 'success' | 'error'
   const [form, setForm] = useState({ name: '', phone: '', email: '', date: '', time: '' })
   const [errors, setErrors] = useState({})
 
@@ -442,7 +442,7 @@ function BookingModal({ isOpen, onClose }) {
     setErrors(e => ({ ...e, [field]: err }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const errs = {}
     if (!form.name) errs.name = 'Please enter your full name.'
@@ -452,14 +452,31 @@ function BookingModal({ isOpen, onClose }) {
       const day = new Date(form.date + 'T00:00:00').getDay()
       if (day === 0) { alert('The gym is closed on Sundays.'); return }
     }
-    if (!form.time) { alert('Please select a visiting time slot.'); return }
+    if (!form.time) { errs.time = 'Please select a visiting time slot.' }
     if (Object.keys(errs).length) { setErrors(errs); return }
-    setSuccess(true)
+
+    setScreen('loading')
+    try {
+      const res = await fetch('/api/visit-booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name, phone: form.phone, email: form.email,
+          date: form.date, time: form.time
+        })
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.error || 'Submission failed')
+      setScreen('success')
+    } catch (err) {
+      console.error('Booking error:', err)
+      setScreen('error')
+    }
   }
 
   useEffect(() => {
     if (isOpen) {
-      setSuccess(false)
+      setScreen('form')
       setForm({ name: '', phone: '', email: '', date: '', time: '' })
       setErrors({})
       document.body.style.overflow = 'hidden'
@@ -487,7 +504,14 @@ function BookingModal({ isOpen, onClose }) {
           <h3>Book a <span style={{ color: 'var(--accent)' }}>Visit</span></h3>
           <p>Schedule your free gym visit today</p>
         </div>
-        {!success ? (
+        {screen === 'loading' && (
+          <div className="booking-loading">
+            <div className="btn-spinner"></div>
+            <p>Submitting your booking...</p>
+          </div>
+        )}
+
+        {screen === 'form' && (
           <form className="booking-form" onSubmit={handleSubmit}>
             <div className="booking-form-group">
               <label><svg className="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Full Name</label>
@@ -510,7 +534,7 @@ function BookingModal({ isOpen, onClose }) {
             </div>
             <div className="booking-form-group">
               <label><svg className="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Visiting Time</label>
-              <select value={form.time} onChange={e => handleChange('time', e.target.value)} required>
+              <select value={form.time} onChange={e => handleChange('time', e.target.value)} style={errors.time ? { borderColor: '#ef4444', boxShadow: '0 0 0 3px rgba(239,68,68,0.15)' } : {}} required>
                 <option value="" disabled>Select a time slot</option>
                 {TIME_SLOTS.map(s => {
                   const [h] = s.split(':')
@@ -524,15 +548,27 @@ function BookingModal({ isOpen, onClose }) {
                 })}
               </select>
               <span className="booking-time-hint">Gym hours: 6:00 AM - 10:00 PM (Mon-Sat) | Closed on Sunday</span>
+              {errors.time && <span className="field-error-message">{errors.time}</span>}
             </div>
             <button type="submit" className="btn btn-primary booking-submit-btn">Confirm Booking <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
           </form>
-        ) : (
+        )}
+
+        {screen === 'success' && (
           <div className="booking-success">
             <div className="booking-success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
             <h3>Booking Confirmed!</h3>
             <p>We'll contact you shortly to confirm your visit.</p>
-            <button className="btn btn-outline" onClick={onClose}>Close</button>
+            <button className="btn btn-primary" onClick={onClose}>Close</button>
+          </div>
+        )}
+
+        {screen === 'error' && (
+          <div className="booking-error">
+            <div className="join-error-icon">⚠️</div>
+            <h3>Submission Failed</h3>
+            <p>Something went wrong. Your booking was not submitted.</p>
+            <button className="btn btn-primary" onClick={() => setScreen('form')}>Try Again</button>
           </div>
         )}
       </div>
