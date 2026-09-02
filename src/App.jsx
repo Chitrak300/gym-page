@@ -456,30 +456,9 @@ function BookingModal({ isOpen, onClose }) {
     if (Object.keys(errs).length) { setErrors(errs); return }
 
     setScreen('loading')
-    try {
-      const payload = {
-        name: form.name.trim(),
-        phone: form.phone.replace(/\D/g, ''),
-        email: form.email.trim(),
-        date: form.date,
-        time: form.time,
-      }
-
-      const res = await fetch('/api/visit-booking', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-
-      if (!res.ok) {
-        throw new Error('Booking failed')
-      }
-
-      setScreen('success')
-    } catch (err) {
-      console.error('Booking error:', err)
-      setScreen('error')
-    }
+    // Simulate brief processing
+    await new Promise(r => setTimeout(r, 800))
+    setScreen('success')
   }
 
   useEffect(() => {
@@ -623,41 +602,39 @@ function JoinModal({ isOpen, onClose }) {
     if (Object.keys(errs).length) { setErrors(errs); return }
 
     setScreen('loading')
+    // Simulate brief processing
+    await new Promise(r => setTimeout(r, 800))
     try {
-      const payload = {
-        name: form.name.trim(),
-        phone: form.phone.replace(/\D/g, ''),
-        email: form.email.trim(),
-        plan: form.plan,
-        months: form.months,
-        hasTrainer: form.hasTrainer === true || form.hasTrainer === 'true',
-        trainerMonths: form.trainerMonths || undefined,
-      }
+      // Generate Member ID
+      const now = new Date()
+      const yy = String(now.getFullYear()).slice(-2)
+      const mm = String(now.getMonth() + 1).padStart(2, '0')
+      const dd = String(now.getDate()).padStart(2, '0')
+      const rand = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
+      const memberId = `IF-${yy}${mm}${dd}-${rand}`
 
-      const res = await fetch('/api/membership', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Membership submission failed')
-      }
+      // Plan lookup
+      const planMap = { '1999': { price: 1999, label: 'Basic' }, '3999': { price: 3999, label: 'Pro' }, '6999': { price: 6999, label: 'Elite' } }
+      const planInfo = planMap[form.plan]
+      const months = parseInt(form.months, 10)
+      const trainer = form.hasTrainer === true || form.hasTrainer === 'true'
+      const trainerDur = trainer ? parseInt(form.trainerMonths, 10) : 0
+      const planTotal = planInfo.price * months
+      const trainerTotal = trainer ? 2000 * trainerDur : 0
+      const totalAmount = planTotal + trainerTotal
 
       setMembershipData({
-        memberId: data.memberId,
-        name: data.name,
-        plan: data.plan,
-        duration: data.duration,
-        hasTrainer: data.hasTrainer,
-        trainerDuration: data.trainerDuration,
-        planAmount: data.planAmount,
-        trainerAmount: data.trainerAmount,
-        totalAmount: data.totalAmount,
-        paymentStatus: data.paymentStatus,
-        membershipStatus: data.membershipStatus,
+        memberId,
+        name: form.name.trim(),
+        plan: planInfo.label,
+        duration: `${months} Month${months > 1 ? 's' : ''}`,
+        hasTrainer: trainer,
+        trainerDuration: trainer ? `${trainerDur} Month${trainerDur > 1 ? 's' : ''}` : null,
+        planAmount: '₹' + planTotal.toLocaleString('en-IN'),
+        trainerAmount: trainer ? '₹' + trainerTotal.toLocaleString('en-IN') : '₹0',
+        totalAmount: '₹' + totalAmount.toLocaleString('en-IN'),
+        paymentStatus: 'Pending',
+        membershipStatus: 'Pending',
       })
       setScreen('success')
     } catch (err) {
