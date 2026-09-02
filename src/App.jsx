@@ -457,24 +457,39 @@ function BookingModal({ isOpen, onClose }) {
 
     setScreen('loading')
     try {
+      // Format time slot
+      const formatSlot = (slot) => {
+        if (!slot) return ''
+        const [start, end] = slot.split('-')
+        const fmt = (t) => {
+          const [h, m] = t.split(':').map(Number)
+          const ampm = h >= 12 ? 'PM' : 'AM'
+          const h12 = h > 12 ? h - 12 : h === 0 ? 12 : h
+          return `${h12}:${String(m).padStart(2, '0')} ${ampm}`
+        }
+        return `${fmt(start)} – ${fmt(end)}`
+      }
+      const visitDate = new Date(form.date + 'T00:00:00')
+      const formattedDate = visitDate.toLocaleDateString('en-IN', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+      })
+
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5XGQPjNQwr48pwFCEpWYfKc5313viZgBa3kxDyez06RKjXYk6wHc8j_SqoklEUltdzQ/exec'
       const payload = {
+        type: 'visit_booking',
         name: form.name.trim(),
         phone: form.phone.replace(/\D/g, ''),
         email: form.email.trim(),
-        date: form.date,
-        time: form.time,
+        date: formattedDate,
+        time: formatSlot(form.time),
       }
 
-      const res = await fetch('/api/visit-booking', {
+      await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || 'Booking failed')
-      }
 
       setScreen('success')
     } catch (err) {
@@ -625,40 +640,60 @@ function JoinModal({ isOpen, onClose }) {
 
     setScreen('loading')
     try {
+      // Generate unique Member ID
+      const now = new Date()
+      const yy = String(now.getFullYear()).slice(-2)
+      const mm = String(now.getMonth() + 1).padStart(2, '0')
+      const dd = String(now.getDate()).padStart(2, '0')
+      const rand = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
+      const memberId = `IF-${yy}${mm}${dd}-${rand}`
+
+      // Plan lookup
+      const planMap = { '1999': { price: 1999, label: 'Basic' }, '3999': { price: 3999, label: 'Pro' }, '6999': { price: 6999, label: 'Elite' } }
+      const planInfo = planMap[form.plan]
+      const months = parseInt(form.months, 10)
+      const trainer = form.hasTrainer === true || form.hasTrainer === 'true'
+      const trainerDur = trainer ? parseInt(form.trainerMonths, 10) : 0
+      const planTotal = planInfo.price * months
+      const trainerTotal = trainer ? 2000 * trainerDur : 0
+      const totalAmount = planTotal + trainerTotal
+
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5XGQPjNQwr48pwFCEpWYfKc5313viZgBa3kxDyez06RKjXYk6wHc8j_SqoklEUltdzQ/exec'
       const payload = {
+        memberId,
         name: form.name.trim(),
         phone: form.phone.replace(/\D/g, ''),
         email: form.email.trim(),
-        plan: form.plan,
-        months: form.months,
-        hasTrainer: form.hasTrainer === true || form.hasTrainer === 'true',
-        trainerMonths: form.trainerMonths || undefined,
+        plan: planInfo.label,
+        months: `${months} Month${months > 1 ? 's' : ''}`,
+        trainer: trainer ? 'Yes' : 'No',
+        trainerMonths: trainer ? `${trainerDur} Month${trainerDur > 1 ? 's' : ''}` : 'N/A',
+        planCost: `₹${planTotal.toLocaleString('en-IN')}`,
+        trainerCost: trainer ? `₹${trainerTotal.toLocaleString('en-IN')}` : '₹0',
+        total: `₹${totalAmount.toLocaleString('en-IN')}`,
+        paymentStatus: 'Pending',
+        membershipStatus: 'Pending',
       }
 
-      const res = await fetch('/api/membership', {
+      await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
 
-      const data = await res.json()
-
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Membership submission failed')
-      }
-
       setMembershipData({
-        memberId: data.memberId,
-        name: data.name,
-        plan: data.plan,
-        duration: data.duration,
-        hasTrainer: data.hasTrainer,
-        trainerDuration: data.trainerDuration,
-        planAmount: data.planAmount,
-        trainerAmount: data.trainerAmount,
-        totalAmount: data.totalAmount,
-        paymentStatus: data.paymentStatus,
-        membershipStatus: data.membershipStatus,
+        memberId,
+        name: form.name.trim(),
+        plan: planInfo.label,
+        duration: `${months} Month${months > 1 ? 's' : ''}`,
+        hasTrainer: trainer,
+        trainerDuration: trainer ? `${trainerDur} Month${trainerDur > 1 ? 's' : ''}` : null,
+        planAmount: '₹' + planTotal.toLocaleString('en-IN'),
+        trainerAmount: trainer ? '₹' + trainerTotal.toLocaleString('en-IN') : '₹0',
+        totalAmount: '₹' + totalAmount.toLocaleString('en-IN'),
+        paymentStatus: 'Pending',
+        membershipStatus: 'Pending',
       })
       setScreen('success')
     } catch (err) {
