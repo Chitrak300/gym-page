@@ -24,7 +24,7 @@ function generateMemberId() {
 // ===== SANITIZE INPUT =====
 function sanitize(str) {
   if (typeof str !== 'string') return '';
-  return str.replace(/[<>\"'`;]/g, '').trim().slice(0, 200);
+  return str.replace(/[<>"'`;]/g, '').trim().slice(0, 200);
 }
 
 module.exports = async function handler(req, res) {
@@ -39,11 +39,6 @@ module.exports = async function handler(req, res) {
 
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method not allowed.' });
-  }
-
-  const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL;
-  if (!GOOGLE_SCRIPT_URL) {
-    return res.status(500).json({ success: false, error: 'Server configuration error.' });
   }
 
   try {
@@ -100,40 +95,7 @@ module.exports = async function handler(req, res) {
     // Generate unique Member ID
     const memberId = generateMemberId();
 
-    // Prepare payload for Google Apps Script
-    const payload = {
-      memberId,
-      name: sanitize(name),
-      phone: cleanPhone,
-      email: sanitize(email),
-      plan: planLabel,
-      months: `${duration} Month${duration > 1 ? 's' : ''}`,
-      trainer: trainer ? 'Yes' : 'No',
-      trainerMonths: trainer ? `${trainerDur} Month${trainerDur > 1 ? 's' : ''}` : 'N/A',
-      planCost: `₹${planTotal.toLocaleString('en-IN')}`,
-      trainerCost: trainer ? `₹${trainerTotal.toLocaleString('en-IN')}` : '₹0',
-      total: `₹${total.toLocaleString('en-IN')}`,
-      paymentStatus: 'Pending',
-      membershipStatus: 'Pending',
-    };
-
-    // Send to Google Apps Script Web App
-    const scriptResponse = await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      redirect: 'follow',
-    });
-
-    if (!scriptResponse.ok) {
-      console.error('Google Apps Script error:', scriptResponse.status);
-      return res.status(502).json({
-        success: false,
-        error: 'Failed to submit to Google Sheets. Please try again.',
-      });
-    }
-
-    // Return safe response
+    // Return response
     return res.status(200).json({
       success: true,
       memberId,
