@@ -973,8 +973,8 @@ img { max-width: 100%; }
 /* ===== SOCIAL FLOAT ===== */
 .social-float {
   position: fixed;
-  top: 80px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   z-index: 1001;
   display: flex;
   flex-direction: column;
@@ -989,8 +989,12 @@ img { max-width: 100%; }
   gap: 10px;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-20px);
+  transform: translateY(-10px);
   transition: all 0.3s ease;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
 }
 
 .social-float-menu.open {
@@ -1211,8 +1215,8 @@ img { max-width: 100%; }
   .join-trainer-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
 
   /* Social Float */
-  .social-float { top: 16px; right: 16px; }
-  .social-float-main { width: 52px; height: 52px; }
+  .social-float { top: 12px; right: 12px; }
+  .social-float-main { width: 48px; height: 48px; }
 
   /* Membership Card */
   .membership-card { padding: 24px 16px; width: 100%; }
