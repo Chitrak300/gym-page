@@ -973,9 +973,9 @@ img { max-width: 100%; }
 /* ===== SOCIAL FLOAT ===== */
 .social-float {
   position: fixed;
-  top: 100px;
-  right: 24px;
-  z-index: 999;
+  top: 80px;
+  right: 20px;
+  z-index: 1001;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
