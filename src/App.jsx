@@ -330,6 +330,7 @@ function Gallery() {
 
 function BMICalculator() {
   const [unit, setUnit] = useState('metric')
+  const [age, setAge] = useState('')
   const [heightCm, setHeightCm] = useState('')
   const [weightKg, setWeightKg] = useState('')
   const [heightFt, setHeightFt] = useState('')
@@ -339,6 +340,8 @@ function BMICalculator() {
 
   const calculate = () => {
     let bmi
+    const ageVal = parseInt(age)
+    if (!ageVal || ageVal < 2 || ageVal > 120) return
     if (unit === 'metric') {
       const h = parseFloat(heightCm), w = parseFloat(weightKg)
       if (!h || !w || h <= 0 || w <= 0) return
@@ -355,7 +358,7 @@ function BMICalculator() {
     else if (bmi < 25) { category = 'Normal Weight'; catClass = 'normal' }
     else if (bmi < 30) { category = 'Overweight'; catClass = 'overweight' }
     else { category = 'Obese'; catClass = 'obese' }
-    setResult({ bmi, category, catClass })
+    setResult({ bmi, category, catClass, age: ageVal })
   }
 
   const angle = result ? Math.min(Math.max(((Math.min(Math.max(result.bmi, 10), 40) - 10) / 30) * 180 - 90, -90), 90) : 0
@@ -379,11 +382,13 @@ function BMICalculator() {
             </div>
             {unit === 'metric' ? (
               <>
+                <div className="bmi-input-group"><label>Age</label><input type="number" placeholder="e.g. 25" value={age} onChange={e => setAge(e.target.value)} min="2" max="120" /></div>
                 <div className="bmi-input-group"><label>Height (cm)</label><input type="number" placeholder="e.g. 175" value={heightCm} onChange={e => setHeightCm(e.target.value)} min="50" max="300" /></div>
                 <div className="bmi-input-group"><label>Weight (kg)</label><input type="number" placeholder="e.g. 70" value={weightKg} onChange={e => setWeightKg(e.target.value)} min="10" max="500" /></div>
               </>
             ) : (
               <>
+                <div className="bmi-input-group"><label>Age</label><input type="number" placeholder="e.g. 25" value={age} onChange={e => setAge(e.target.value)} min="2" max="120" /></div>
                 <div className="bmi-row">
                   <div className="bmi-input-group"><label>Height (ft)</label><input type="number" placeholder="e.g. 5" value={heightFt} onChange={e => setHeightFt(e.target.value)} min="1" max="9" /></div>
                   <div className="bmi-input-group"><label>Height (in)</label><input type="number" placeholder="e.g. 9" value={heightIn} onChange={e => setHeightIn(e.target.value)} min="0" max="11" /></div>
@@ -410,6 +415,7 @@ function BMICalculator() {
                 </svg>
               </div>
               <div className="bmi-value">{result.bmi}</div>
+              <div className="bmi-age">Age: {result.age} years</div>
               <div className={`bmi-category ${result.catClass}`}>{result.category}</div>
               <div className="bmi-scale">
                 <span className="scale-item underweight">Underweight<br /><small>&lt; 18.5</small></span>

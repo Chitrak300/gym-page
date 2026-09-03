@@ -834,6 +834,12 @@ img { max-width: 100%; }
 .bmi-category.overweight { background: rgba(234,179,8,0.15); color: var(--yellow); }
 .bmi-category.obese { background: rgba(239,68,68,0.15); color: var(--red); }
 
+.bmi-age {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
 .bmi-scale {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
