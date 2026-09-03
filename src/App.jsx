@@ -75,7 +75,14 @@ const TRAINER_DURATIONS = [
   { value: '1', label: '1 Month' },
   { value: '2', label: '2 Months' },
   { value: '3', label: '3 Months' },
+  { value: '4', label: '4 Months' },
+  { value: '5', label: '5 Months' },
   { value: '6', label: '6 Months' },
+  { value: '7', label: '7 Months' },
+  { value: '8', label: '8 Months' },
+  { value: '9', label: '9 Months' },
+  { value: '10', label: '10 Months' },
+  { value: '11', label: '11 Months' },
   { value: '12', label: '12 Months' },
 ]
 
@@ -92,7 +99,7 @@ const DumbbellIcon = () => <svg viewBox="0 0 24 24" strokeLinecap="round" stroke
 // ===== HOOKS =====
 function useScrollReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll('.plan-card, .trainer-card, .section-header, .bmi-form-card, .bmi-result-card, .gallery-item')
+    const els = document.querySelectorAll('.plan-card, .trainer-card, .section-header, .bmi-form-card, .bmi-result-card')
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -281,6 +288,15 @@ function Trainers() {
 }
 
 function Gallery() {
+  const sliderRef = useRef(null)
+
+  const scroll = (dir) => {
+    if (sliderRef.current) {
+      const scrollAmount = 370
+      sliderRef.current.scrollBy({ left: dir === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' })
+    }
+  }
+
   return (
     <section className="gallery" id="gallery">
       <div className="container">
@@ -289,13 +305,23 @@ function Gallery() {
           <h2 className="section-title">Gym <span className="accent">Gallery</span></h2>
           <p className="section-desc">Take a look inside our state-of-the-art facility and see what awaits you.</p>
         </div>
-        <div className="gallery-grid">
-          {GALLERY.map((g, i) => (
-            <div className={`gallery-item ${g.wide ? 'gallery-item-wide' : ''}`} key={i}>
-              <img src={g.src} alt={g.alt} loading="lazy" />
-              <div className="gallery-overlay"><span className="gallery-label">{g.alt}</span></div>
-            </div>
-          ))}
+        <div className="gallery-slider-wrapper">
+          <div className="gallery-slider" ref={sliderRef}>
+            {GALLERY.map((g, i) => (
+              <div className="gallery-item" key={i}>
+                <img src={g.src} alt={g.alt} loading="lazy" />
+                <div className="gallery-overlay"><span className="gallery-label">{g.alt}</span></div>
+              </div>
+            ))}
+          </div>
+          <div className="gallery-nav">
+            <button className="gallery-nav-btn" onClick={() => scroll('left')} aria-label="Scroll left">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button className="gallery-nav-btn" onClick={() => scroll('right')} aria-label="Scroll right">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -798,7 +824,9 @@ function JoinModal({ isOpen, onClose }) {
                 <label>Membership Months</label>
                 <select value={form.months} onChange={e => handleChange('months', e.target.value)} required>
                   <option value="" disabled>Select months</option>
-                  <option value="1">1 Month</option><option value="2">2 Months</option><option value="3">3 Months</option><option value="6">6 Months</option><option value="12">12 Months</option>
+                  {[1,2,3,4,5,6,7,8,9,10,11,12].map(m => (
+                    <option key={m} value={m}>{m} Month{m > 1 ? 's' : ''}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -902,11 +930,30 @@ function JoinModal({ isOpen, onClose }) {
   )
 }
 
-function WhatsAppFloat() {
+function SocialFloat() {
+  const [open, setOpen] = useState(false)
+
+  const socials = [
+    { name: 'WhatsApp', color: '#25D366', icon: <svg viewBox="0 0 32 32" fill="white" width="22" height="22"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.054 9.378L1.054 31.25l6.14-1.982A15.91 15.91 0 0016.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.316 22.602c-.39 1.098-1.93 2.01-3.15 2.27-.834.178-1.922.32-5.6-1.204-4.696-1.95-7.71-6.736-7.94-7.05-.224-.314-1.86-2.478-1.86-4.726 0-2.248 1.182-3.348 1.604-3.81.39-.428.934-.54 1.242-.54.31 0 .618.004.89.016.286.012.668-.108 1.04.794.39.95 1.334 3.246 1.45 3.484.116.238.194.514.038.828-.156.314-.234.51-.468.786-.234.276-.492.616-.702.828-.234.238-.478.494-.204.962.274.468 1.218 2.01 2.612 3.256 1.794 1.6 3.304 2.096 3.772 2.33.468.234.742.194 1.016-.118.274-.312 1.16-1.35 1.474-1.818.312-.468.626-.39 1.056-.234.434.156 2.744 1.294 3.216 1.53.468.238.78.354.896.55.116.196.116 1.142-.274 2.24z"/></svg>, url: 'https://wa.me/919876543210?text=Hi%20IronForge%20Gym!' },
+    { name: 'Instagram', color: '#E4405F', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>, url: '#' },
+    { name: 'Facebook', color: '#1877F2', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>, url: '#' },
+    { name: 'Call Us', color: '#e63946', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>, url: 'tel:+919876543210' },
+  ]
+
   return (
-    <a href="https://wa.me/919876543210?text=Hi%20IronForge%20Gym!%20I%20want%20to%20know%20more%20about%20membership." className="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
-      <svg viewBox="0 0 32 32" fill="white" width="28" height="28"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.054 9.378L1.054 31.25l6.14-1.982A15.91 15.91 0 0016.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.316 22.602c-.39 1.098-1.93 2.01-3.15 2.27-.834.178-1.922.32-5.6-1.204-4.696-1.95-7.71-6.736-7.94-7.05-.224-.314-1.86-2.478-1.86-4.726 0-2.248 1.182-3.348 1.604-3.81.39-.428.934-.54 1.242-.54.31 0 .618.004.89.016.286.012.668-.108 1.04.794.39.95 1.334 3.246 1.45 3.484.116.238.194.514.038.828-.156.314-.234.51-.468.786-.234.276-.492.616-.702.828-.234.238-.478.494-.204.962.274.468 1.218 2.01 2.612 3.256 1.794 1.6 3.304 2.096 3.772 2.33.468.234.742.194 1.016-.118.274-.312 1.16-1.35 1.474-1.818.312-.468.626-.39 1.056-.234.434.156 2.744 1.294 3.216 1.53.468.238.78.354.896.55.116.196.116 1.142-.274 2.24z"/></svg>
-    </a>
+    <div className="social-float">
+      <div className={`social-float-menu ${open ? 'open' : ''}`}>
+        {socials.map((s, i) => (
+          <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="social-float-item" style={{ '--social-color': s.color, transitionDelay: open ? `${i * 0.06}s` : '0s' }} aria-label={s.name}>
+            {s.icon}
+            <span className="social-float-label">{s.name}</span>
+          </a>
+        ))}
+      </div>
+      <button className="social-float-main" onClick={() => setOpen(!open)} aria-label="Social media" style={{ transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }}>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
   )
 }
 
@@ -928,7 +975,7 @@ export default function App() {
       <Footer />
       <BookingModal isOpen={bookingOpen} onClose={() => setBookingOpen(false)} />
       <JoinModal isOpen={joinOpen} onClose={() => setJoinOpen(false)} />
-      <WhatsAppFloat />
+      <SocialFloat />
     </>
   )
 }
