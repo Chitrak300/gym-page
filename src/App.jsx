@@ -220,7 +220,7 @@ function HeroStats() {
   )
 }
 
-function Membership() {
+function Membership({ onOpenJoin }) {
   return (
     <section className="membership" id="membership">
       <div className="container">
@@ -248,7 +248,7 @@ function Membership() {
                   </li>
                 ))}
               </ul>
-              <a href="#join" className={`plan-btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>Get Started</a>
+              <button className={`plan-btn ${p.featured ? 'btn-primary' : 'btn-outline'}`} onClick={() => onOpenJoin(p.price)}>Get Started</button>
             </div>
           ))}
         </div>
@@ -632,7 +632,7 @@ function BookingModal({ isOpen, onClose }) {
   )
 }
 
-function JoinModal({ isOpen, onClose }) {
+function JoinModal({ isOpen, onClose, preselectedPlan }) {
   const [screen, setScreen] = useState('form') // form | loading | success | error
   const [form, setForm] = useState({ name: '', phone: '', email: '', plan: '', months: '', hasTrainer: false, trainerMonths: '' })
   const [errors, setErrors] = useState({})
@@ -741,7 +741,7 @@ function JoinModal({ isOpen, onClose }) {
   useEffect(() => {
     if (isOpen) {
       setScreen('form')
-      setForm({ name: '', phone: '', email: '', plan: '', months: '', hasTrainer: false, trainerMonths: '' })
+      setForm({ name: '', phone: '', email: '', plan: preselectedPlan || '', months: '', hasTrainer: false, trainerMonths: '' })
       setErrors({})
       setMembershipData(null)
       document.body.style.overflow = 'hidden'
@@ -751,7 +751,7 @@ function JoinModal({ isOpen, onClose }) {
       document.removeEventListener('click', closeTrainerDropdown)
     }
     return () => document.removeEventListener('click', closeTrainerDropdown)
-  }, [isOpen, closeTrainerDropdown])
+  }, [isOpen, closeTrainerDropdown, preselectedPlan])
 
   useEffect(() => {
     const h = (e) => { if (e.key === 'Escape' && isOpen) onClose() }
@@ -971,20 +971,26 @@ function SocialFloat() {
 export default function App() {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [joinOpen, setJoinOpen] = useState(false)
+  const [preselectedPlan, setPreselectedPlan] = useState('')
+
+  const openJoin = (planPrice) => {
+    setPreselectedPlan(planPrice ? String(planPrice) : '')
+    setJoinOpen(true)
+  }
 
   useScrollReveal()
 
   return (
     <>
-      <Navbar onOpenBooking={() => setBookingOpen(true)} onOpenJoin={() => setJoinOpen(true)} />
+      <Navbar onOpenBooking={() => setBookingOpen(true)} onOpenJoin={() => openJoin('')} />
       <Hero onOpenBooking={() => setBookingOpen(true)} />
-      <Membership />
+      <Membership onOpenJoin={openJoin} />
       <Trainers />
       <Gallery />
       <BMICalculator />
       <Footer />
       <BookingModal isOpen={bookingOpen} onClose={() => setBookingOpen(false)} />
-      <JoinModal isOpen={joinOpen} onClose={() => setJoinOpen(false)} />
+      <JoinModal isOpen={joinOpen} onClose={() => setJoinOpen(false)} preselectedPlan={preselectedPlan} />
       <SocialFloat />
     </>
   )
