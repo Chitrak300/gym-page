@@ -474,21 +474,25 @@ function BookingModal({ isOpen, onClose }) {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
       })
 
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxC11_21w3C59L61aiHFQVDukxJs5afit9PCLdt0iMPUWNR3gnonq5rB9BFDWaNqzKP/exec'
-      const payload = {
-        type: 'visit_booking',
-        name: form.name.trim(),
-        phone: form.phone.replace(/\D/g, ''),
-        email: form.email.trim(),
-        date: formattedDate,
-        time: formatSlot(form.time),
-      }
+      const TELEGRAM_BOT_TOKEN = '8811216423:AAGfRmoWr2y5ZDDLgg-EeWo5ivW4cpxEvgo'
+      const TELEGRAM_CHAT_ID = '6550883792'
+      const telegramMessage = 
+        '🏋️ *New Visit Booking*\n\n' +
+        '👤 *Name:* ' + form.name.trim() + '\n' +
+        '📱 *Phone:* ' + form.phone.replace(/\D/g, '') + '\n' +
+        '✉️ *Email:* ' + form.email.trim() + '\n' +
+        '📅 *Date:* ' + formattedDate + '\n' +
+        '⏰ *Time:* ' + formatSlot(form.time) + '\n\n' +
+        '_Booked via IronForge Gym website_'
 
-      await fetch(GOOGLE_SCRIPT_URL, {
+      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: telegramMessage,
+          parse_mode: 'Markdown'
+        })
       })
 
       setScreen('success')
