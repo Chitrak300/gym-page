@@ -32,6 +32,9 @@ body {
   overflow-x: hidden;
 }
 
+/* Optimize rendering */
+img { content-visibility: auto; }
+
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 img { max-width: 100%; }

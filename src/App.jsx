@@ -269,7 +269,7 @@ function Trainers() {
         <div className="trainers-grid">
           {TRAINERS.map(t => (
             <div className="trainer-card" key={t.name}>
-              <div className="trainer-avatar"><img src={t.photo} alt={t.name} className="trainer-photo" /></div>
+              <div className="trainer-avatar"><img src={t.photo} alt={t.name} className="trainer-photo" loading="lazy" /></div>
               <h3 className="trainer-name">{t.name}</h3>
               <p className="trainer-specialty">{t.specialty}</p>
               <p className="trainer-bio">{t.bio}</p>
