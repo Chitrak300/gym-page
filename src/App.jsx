@@ -287,8 +287,60 @@ function Trainers() {
   )
 }
 
+function Lightbox({ images, index, onClose, onPrev, onNext }) {
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+
+  useEffect(() => {
+    const h = (e) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') onPrev()
+      if (e.key === 'ArrowRight') onNext()
+    }
+    document.addEventListener('keydown', h)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', h)
+      document.body.style.overflow = ''
+    }
+  }, [onClose, onPrev, onNext])
+
+  const onTouchStart = (e) => { setTouchStart(e.targetTouches[0].clientX); setTouchEnd(null) }
+  const onTouchMove = (e) => { setTouchEnd(e.targetTouches[0].clientX) }
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const dist = touchStart - touchEnd
+    if (Math.abs(dist) > 50) {
+      if (dist > 0) onNext()
+      else onPrev()
+    }
+  }
+
+  return (
+    <div className="lightbox" onClick={onClose} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+      <button className="lightbox-close" onClick={onClose} aria-label="Close">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button className="lightbox-prev" onClick={(e) => { e.stopPropagation(); onPrev() }} aria-label="Previous">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+        <img src={images[index].src} alt={images[index].alt} className="lightbox-img" />
+        <div className="lightbox-caption">
+          <span className="lightbox-title">{images[index].alt}</span>
+          <span className="lightbox-counter">{index + 1} / {images.length}</span>
+        </div>
+      </div>
+      <button className="lightbox-next" onClick={(e) => { e.stopPropagation(); onNext() }} aria-label="Next">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  )
+}
+
 function Gallery() {
   const sliderRef = useRef(null)
+  const [lightboxIndex, setLightboxIndex] = useState(null)
 
   const scroll = (dir) => {
     if (sliderRef.current) {
@@ -296,6 +348,11 @@ function Gallery() {
       sliderRef.current.scrollBy({ left: dir === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' })
     }
   }
+
+  const openLightbox = (i) => setLightboxIndex(i)
+  const closeLightbox = () => setLightboxIndex(null)
+  const prevImage = () => setLightboxIndex(i => (i - 1 + GALLERY.length) % GALLERY.length)
+  const nextImage = () => setLightboxIndex(i => (i + 1) % GALLERY.length)
 
   return (
     <section className="gallery" id="gallery">
@@ -308,7 +365,7 @@ function Gallery() {
         <div className="gallery-slider-wrapper">
           <div className="gallery-slider" ref={sliderRef}>
             {GALLERY.map((g, i) => (
-              <div className="gallery-item" key={i}>
+              <div className="gallery-item" key={i} onClick={() => openLightbox(i)}>
                 <img src={g.src} alt={g.alt} loading="lazy" />
                 <div className="gallery-overlay"><span className="gallery-label">{g.alt}</span></div>
               </div>
@@ -324,6 +381,9 @@ function Gallery() {
           </div>
         </div>
       </div>
+      {lightboxIndex !== null && (
+        <Lightbox images={GALLERY} index={lightboxIndex} onClose={closeLightbox} onPrev={prevImage} onNext={nextImage} />
+      )}
     </section>
   )
 }
