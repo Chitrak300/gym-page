@@ -474,7 +474,7 @@ function BookingModal({ isOpen, onClose }) {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
       })
 
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5XGQPjNQwr48pwFCEpWYfKc5313viZgBa3kxDyez06RKjXYk6wHc8j_SqoklEUltdzQ/exec'
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxC11_21w3C59L61aiHFQVDukxJs5afit9PCLdt0iMPUWNR3gnonq5rB9BFDWaNqzKP/exec'
       const payload = {
         type: 'visit_booking',
         name: form.name.trim(),
@@ -658,7 +658,7 @@ function JoinModal({ isOpen, onClose }) {
       const trainerTotal = trainer ? 2000 * trainerDur : 0
       const totalAmount = planTotal + trainerTotal
 
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5XGQPjNQwr48pwFCEpWYfKc5313viZgBa3kxDyez06RKjXYk6wHc8j_SqoklEUltdzQ/exec'
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxC11_21w3C59L61aiHFQVDukxJs5afit9PCLdt0iMPUWNR3gnonq5rB9BFDWaNqzKP/exec'
       const payload = {
         memberId,
         name: form.name.trim(),
